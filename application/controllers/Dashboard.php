@@ -7,14 +7,16 @@ class Dashboard extends CI_Controller {
     {
         parent::__construct();
         // $this->load->library('form_validation');
-        // $this->load->model('Auth_models', 'authModels');
+        $this->load->model('Menu_models', 'menuModels');
 	}
 	
 	public function index()
 	{
+        $data['menu'] = $this->menuModels->getMenu();
+
 		$this->load->view('templates/header');
         $this->load->view('templates/topbar');
-        $this->load->view('templates/sidebar');
+        $this->load->view('templates/sidebar', $data);
         $this->load->view('dashboard/index');
         $this->load->view('templates/footer');
 	}

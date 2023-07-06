@@ -7,6 +7,14 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
+
+                <?php foreach ($menu as $m) : ?>
+                <li class="menu-title" key="t-menu"><?= $m['menu_name'] ?></li>
+                <?php endforeach; ?>
+
+
+                <li class="menu-title" key="t-menu">SAMenu</li>
+
                 <li class="menu-title" key="t-menu">Menu</li>
 
                 <li>
