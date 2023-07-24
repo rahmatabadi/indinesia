@@ -36,29 +36,27 @@
                             </a>
                         </div>
                         <div class="p-2">
-                            <form class="form-horizontal" method="POST" action="<?= base_url('dashboard') ?>">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Enter username">
-                                </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter username">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Password</label>
-                                    <div class="input-group auth-pass-inputgroup">
-                                        <input type="password" class="form-control" id="password"
-                                            placeholder="Enter password" aria-label="Password"
-                                            aria-describedby="password-addon">
-                                    </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input type="password" class="form-control" id="password"
+                                        placeholder="Enter password" aria-label="Password"
+                                        aria-describedby="password-addon">
                                 </div>
+                            </div>
 
-                                <div class="mt-3 d-grid">
-                                    <button class="btn btn-primary waves-effect waves-light" id="login">Log In</button>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock me-1"></i>
-                                        Forgot your password?</a>
-                                </div>
-                            </form>
+                            <div class="mt-3 d-grid">
+                                <button class="btn btn-primary waves-effect waves-light" id="login">Log In</button>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock me-1"></i>
+                                    Forgot your password?</a>
+                            </div>
                         </div>
 
                     </div>
@@ -66,9 +64,11 @@
                 <div class="mt-5 text-center">
 
                     <div>
-                        < <p>© <script>
+                        < <p>©
+                            <script>
                             document.write(new Date().getFullYear())
-                            </script> Indinesia. Crafted with <i class="mdi mdi-heart text-danger"></i> by Indi Software
+                            </script> Indinesia. Crafted with <i class="mdi mdi-heart text-danger"></i> by Indi
+                            Software
                             House</p>
                     </div>
                 </div>
@@ -77,5 +77,35 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<script>
+$(document).ready(function($) {
+    $(document).on('click', '#login', function() {
+        console.log('Its Login Clicked');
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        if (username != null && username !== "" && password != null && password !== "") {
+            $.ajax({
+                url: "auth/validation",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "username": username,
+                    "password": password,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(result) {
+                    if (result.success) {
+                        window.location.href = "dashboard";
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+
+        } else {
+            alert('Your username or password is empty, please fill this');
+        }
+    });
+});
 </script>

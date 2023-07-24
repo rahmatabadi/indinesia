@@ -2,11 +2,23 @@
 
 class Menu_models extends CI_Model
 {
-    public function getMenu()
+    public function getMenu($roleId)
     {
-        $this->db->select('*');
-        $this->db->from('sub_menu');
-        $this->db->join('menu', 'sub_menu.id_menu = menu.id_menu');
-        return $this->db->get()->result_array();
+        return $this->db->select('a.*')
+            ->from('menu a')
+            ->join('access_menu b', 'a.id_menu = b.menu_id')
+            ->where(array('b.role_id' => $roleId))
+            ->group_by('a.id_menu')
+            ->get()->result_array();
+    }
+
+    public function getMenuDetail($roleId)
+    {
+        return $this->db->select('a.*')
+            ->from('sub_menu a')
+            ->join('access_menu b', 'a.id_sub_menu = b.sub_menu_id')
+            ->where(array('b.role_id' => $roleId))
+            ->group_by('a.id_sub_menu')
+            ->get()->result_array();
     }
 }
