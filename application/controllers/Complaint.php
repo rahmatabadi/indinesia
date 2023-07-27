@@ -18,6 +18,8 @@ class Complaint extends CI_Controller
                 $data['title'] = 'Complaint';
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
+                $data['data'] = $this->complaintModels->getDataComplaint();
+                $data['departement'] = $this->complaintModels->getDepartement();
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
@@ -32,20 +34,15 @@ class Complaint extends CI_Controller
                 $phone = $this->input->post('phone');
                 $room = $this->input->post('room');
                 $message = $this->input->post('message');
+                $departement = $this->input->post('departement');
 
-                $create = $this->complaintModels->createComplaint($name, $phone, $room, $message);
+                $create = $this->complaintModels->createComplaint($name, $phone, $room, $message, $departement);
 
-                // if ($validation) {
-                //         $newdata = array(
-                //                 'username' => $validation['username'],
-                //                 'roleId' => $validation['role_id']
-                //         );
-
-                //         $this->session->set_userdata($newdata);
-                //         echo json_encode(array("success" => $validation));
-                // } else {
-                //         echo json_encode(array("error" => "Data Tidak Ditemukan"));
-                // }
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
 
         }
 }
