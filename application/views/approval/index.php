@@ -42,58 +42,56 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $i ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['room'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['phone'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['message'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['date'] ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($m['status'] == 1): ?>
-                                            <span class="badge bg-info">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 2): ?>
-                                            <span class="badge bg-warning">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 3): ?>
-                                            <span class="badge bg-success">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php endif; ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['room'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['phone'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['message'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['date'] ?>
+                                            </td>
+                                            <td>
+                                                <?php if ($m['status'] == 1): ?>
+                                                    <span class="badge bg-info">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 2): ?>
+                                                    <span class="badge bg-warning">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 3): ?>
+                                                    <span class="badge bg-success">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </td>
 
+                                            <td>
+                                                <?php if ($m['status'] == 1): ?>
+                                                    <button type="button" id="assign"
+                                                        class="btn btn-primary btn-sm waves-effect waves-light"
+                                                        data-bs-toggle="modal" data-bs-target="#assignModal"
+                                                        data-idC="<?= $m['id'] ?>">Asign
+                                                        To</button>
+                                                <?php elseif ($m['status'] == 2): ?>
+                                                    <button type="button" id="done" data-idC="<?= $m['id'] ?>"
+                                                        class="btn btn-primary btn-sm waves-effect waves-light">Done</button>
+                                                <?php endif; ?>
 
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            <?php if ($m['status'] == 1): ?>
-                                            <button type="button" id="assign"
-                                                class="btn btn-primary btn-sm waves-effect waves-light"
-                                                data-bs-toggle="modal" data-bs-target="#assignModal"
-                                                data-idC="<?= $m['id'] ?>">Asign
-                                                To</button>
-                                            <?php elseif ($m['status'] == 2): ?>
-                                            <button type="button" id="done" data-idC="<?= $m['id'] ?>"
-                                                class="btn btn-primary btn-sm waves-effect waves-light">Done</button>
-                                            <?php endif; ?>
-
-                                        </td>
-
-                                        <!-- <td>
+                                            <!-- <td>
                                             <ul class="list-unstyled hstack gap-1 mb-0">
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top" aria-label="View">
                                                     <a href="job-details.html" class="btn btn-sm btn-soft-primary"><i
@@ -111,8 +109,8 @@
                                                 </li>
                                             </ul>
                                         </td> -->
-                                    </tr>
-                                    <?php $i++; ?>
+                                        </tr>
+                                        <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -160,64 +158,64 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    $(document).on('click', '#assign', function() {
-        id = $(this).attr('data-idC');
+    $(document).ready(function ($) {
+        $(document).on('click', '#assign', function () {
+            id = $(this).attr('data-idC');
 
-        $('#idU').val(id);
-    });
+            $('#idU').val(id);
+        });
 
-    $(document).on('click', '#done', function() {
-        id = $(this).attr('data-idC');
-        console.log(id);
-        if (confirm("Has this complaint been resolved?")) {
-            $.ajax({
-                url: "approval/updateDone",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    "id": id,
-                    "_token": "{{ csrf_token() }}"
-                },
+        $(document).on('click', '#done', function () {
+            id = $(this).attr('data-idC');
+            console.log(id);
+            if (confirm("Has this complaint been resolved?")) {
+                $.ajax({
+                    url: "approval/updateDone",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "_token": "{{ csrf_token() }}"
+                    },
 
-                success: function(result) {
-                    console.log(result);
-                    if (result.success) {
-                        location.reload();
-                    } else {
-                        alert(result.error);
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                        }
                     }
-                }
-            });
-        }
-    });
-    $(document).on('click', '#process', function() {
-        id = $("#idU").val();
-        name = $("#nameM").val();
+                });
+            }
+        });
+        $(document).on('click', '#process', function () {
+            id = $("#idU").val();
+            name = $("#nameM").val();
 
-        if (name != null && name !== "") {
-            $.ajax({
-                url: "approval/updateWorker",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    "id": id,
-                    "name": name,
-                    "_token": "{{ csrf_token() }}"
-                },
+            if (name != null && name !== "") {
+                $.ajax({
+                    url: "approval/updateWorker",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "name": name,
+                        "_token": "{{ csrf_token() }}"
+                    },
 
-                success: function(result) {
-                    console.log(result);
-                    if (result.success) {
-                        location.reload();
-                    } else {
-                        alert(result.error);
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                        }
                     }
-                }
-            });
-        } else {
-            alert('Your name is empty, please fill it in first');
-        }
+                });
+            } else {
+                alert('Your name is empty, please fill it in first');
+            }
+        });
     });
-});
 </script>
