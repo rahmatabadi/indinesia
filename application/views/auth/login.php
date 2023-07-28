@@ -64,12 +64,11 @@
                 <div class="mt-5 text-center">
 
                     <div>
-                        < <p>©
+                        <p>©
                             <script>
-                            document.write(new Date().getFullYear())
-                            </script> Indinesia. Crafted with <i class="mdi mdi-heart text-danger"></i> by Indi
-                            Software
-                            House</p>
+                                document.write(new Date().getFullYear())
+                            </script> Indinesia.
+                        </p>
                     </div>
                 </div>
 
@@ -78,34 +77,34 @@
     </div>
 </div>
 <script>
-$(document).ready(function($) {
-    $(document).on('click', '#login', function() {
-        console.log('Its Login Clicked');
-        var username = $("#username").val();
-        var password = $("#password").val();
+    $(document).ready(function ($) {
+        $(document).on('click', '#login', function () {
+            console.log('Its Login Clicked');
+            var username = $("#username").val();
+            var password = $("#password").val();
 
-        if (username != null && username !== "" && password != null && password !== "") {
-            $.ajax({
-                url: "auth/validation",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    "username": username,
-                    "password": password,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function(result) {
-                    if (result.success) {
-                        window.location.href = "dashboard";
-                    } else {
-                        alert(result.error);
+            if (username != null && username !== "" && password != null && password !== "") {
+                $.ajax({
+                    url: "auth/validation",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "username": username,
+                        "password": password,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = "dashboard";
+                        } else {
+                            alert(result.error);
+                        }
                     }
-                }
-            });
+                });
 
-        } else {
-            alert('Your username or password is empty, please fill this');
-        }
+            } else {
+                alert('Your username or password is empty, please fill this');
+            }
+        });
     });
-});
 </script>

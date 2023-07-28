@@ -18,15 +18,29 @@ class Complaint_models extends CI_Model
 
     public function createComplaint($name, $phone, $room, $message, $departement)
     {
+        date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'name' => $name,
             'phone' => $phone,
             'room' => $room,
             'message' => $message,
             'assign' => $departement,
-            'status' => '1'
+            'status' => '1',
+            'date' => date('d-m-Y H:i:s')
         );
 
-        return $this->db->insert('complaint', $data);
+        $this->db->insert('complaint', $data);
+
+        $idComplaint = $this->db->insert_id();
+
+        $dataLog = array(
+            'complaint_id' => $idComplaint,
+            'assign' => $departement,
+            'worker' => 'Admin',
+            'status' => '1',
+            'time' => date('d-m-Y H:i:s')
+        );
+
+        return $this->db->insert('log_history', $dataLog);
     }
 }

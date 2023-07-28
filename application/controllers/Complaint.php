@@ -16,6 +16,7 @@ class Complaint extends CI_Controller
                 $roleId = $this->session->userdata('roleId');
 
                 $data['title'] = 'Complaint';
+                $data['fullname'] = $this->session->fullname;
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
                 $data['data'] = $this->complaintModels->getDataComplaint();

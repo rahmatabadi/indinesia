@@ -27,6 +27,7 @@ class Auth extends CI_Controller
         if ($validation) {
             $newdata = array(
                 'username' => $validation['username'],
+                'fullname' => $validation['fullname'],
                 'roleId' => $validation['role_id']
             );
 
@@ -35,5 +36,14 @@ class Auth extends CI_Controller
         } else {
             echo json_encode(array("error" => "Data Tidak Ditemukan"));
         }
+    }
+
+    public function logout()
+    {
+        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('roleId');
+        $this->session->unset_userdata('fullname');
+
+        redirect('auth');
     }
 }

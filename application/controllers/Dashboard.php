@@ -8,19 +8,21 @@ class Dashboard extends CI_Controller
         {
                 parent::__construct();
                 $this->load->model('Menu_models', 'menuModels');
+                is_cekLogin();
         }
 
         public function index()
         {
                 $roleId = $this->session->userdata('roleId');
+                $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
 
-                $this->load->view('templates/header');
-                $this->load->view('templates/topbar');
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/topbar', $data);
                 $this->load->view('templates/sidebar', $data);
-                $this->load->view('dashboard/index');
-                $this->load->view('templates/footer');
+                $this->load->view('dashboard/index', $data);
+                $this->load->view('templates/footer', $data);
         }
 }
