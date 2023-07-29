@@ -5,14 +5,16 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-indi.png" alt="" height="80">
+                        <img src="assets/images/logo-indi.png" alt="" height="40">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-indi.png" alt="" height="80">
+                        <img src="assets/images/logo-indi.png" alt="" height="40">
                     </span>
                 </a>
             </div>
-
+            <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
         </div>
 
         <div class="d-flex">
