@@ -8,6 +8,7 @@ class Complaint_models extends CI_Model
             ->from('complaint a')
             ->join('status_complaint b', 'a.status = b.id')
             ->join('departement c', 'a.assign = c.id')
+            ->order_by('a.id DESC')
             ->get()->result_array();
     }
 

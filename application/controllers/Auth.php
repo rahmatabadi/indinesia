@@ -12,6 +12,9 @@ class Auth extends CI_Controller
 
     public function index()
     {
+        if ($this->session->username) {
+            redirect('dashboard');
+        }
         $this->load->view('templates/auth_header');
         $this->load->view('templates/auth_footer');
         $this->load->view('auth/login');

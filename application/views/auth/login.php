@@ -53,10 +53,10 @@
                             <div class="mt-3 d-grid">
                                 <button class="btn btn-primary waves-effect waves-light" id="login">Log In</button>
                             </div>
-                            <div class="mt-4 text-center">
+                            <!-- <div class="mt-4 text-center">
                                 <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock me-1"></i>
                                     Forgot your password?</a>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -66,7 +66,7 @@
                     <div>
                         <p>©
                             <script>
-                                document.write(new Date().getFullYear())
+                            document.write(new Date().getFullYear())
                             </script> Indinesia.
                         </p>
                     </div>
@@ -77,34 +77,34 @@
     </div>
 </div>
 <script>
-    $(document).ready(function ($) {
-        $(document).on('click', '#login', function () {
-            console.log('Its Login Clicked');
-            var username = $("#username").val();
-            var password = $("#password").val();
+$(document).ready(function($) {
+    $(document).on('click', '#login', function() {
+        console.log('Its Login Clicked');
+        var username = $("#username").val();
+        var password = $("#password").val();
 
-            if (username != null && username !== "" && password != null && password !== "") {
-                $.ajax({
-                    url: "auth/validation",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        "username": username,
-                        "password": password,
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function (result) {
-                        if (result.success) {
-                            window.location.href = "dashboard";
-                        } else {
-                            alert(result.error);
-                        }
+        if (username != null && username !== "" && password != null && password !== "") {
+            $.ajax({
+                url: "auth/validation",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "username": username,
+                    "password": password,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(result) {
+                    if (result.success) {
+                        window.location.href = "dashboard";
+                    } else {
+                        alert(result.error);
                     }
-                });
+                }
+            });
 
-            } else {
-                alert('Your username or password is empty, please fill this');
-            }
-        });
+        } else {
+            alert('Your username or password is empty, please fill this');
+        }
     });
+});
 </script>

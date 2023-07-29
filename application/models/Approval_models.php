@@ -8,6 +8,7 @@ class Approval_models extends CI_Model
             ->from('complaint a')
             ->join('status_complaint b', 'a.`status` = b.id')
             ->where(array('a.assign' => $roleId))
+            ->order_by('a.id DESC')
             ->get()->result_array();
     }
 
