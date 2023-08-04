@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MasterFloor extends CI_Controller
+class MasterUnit extends CI_Controller
 {
 
         public function __construct()
@@ -9,23 +9,24 @@ class MasterFloor extends CI_Controller
                 parent::__construct();
                 $this->load->model('Menu_models', 'menuModels');
                 $this->load->model('Master_Floor_models', 'masterFloorModels');
+                $this->load->model('Master_Unit_models', 'masterUnitModels');
                 is_cekLogin();
         }
 
         public function index()
         {
                 $roleId = $this->session->userdata('roleId');
-                $data['towerId'] = $_GET['towerId'];
+                $data['floorId'] = $_GET['floorId'];
 
                 $towerName = $this->masterFloorModels->getTowerName($data['towerId']);
 
-                $data['title'] = 'Master Floor Tower ' . $towerName['tower_name'];
+                $data['title'] = 'Master Unit Tower ' . $towerName['tower_name'] . ' Floor Id';
 
                 $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
-                $data['data'] = $this->masterFloorModels->getFloor($data['towerId']);
+                //$data['data'] = $this->masterFloorModels->getFloor($data['floorId']);
 
 
                 $this->load->view('templates/header', $data);

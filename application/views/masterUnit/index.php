@@ -7,11 +7,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Master </h4>
+                        <h4 class="mb-sm-0 font-size-18">
+                            <?= $title ?>
+                        </h4>
 
                         <div class="page-title-right">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">Create Tower</button>
+                                data-bs-target="#exampleModal">Create Floor</button>
                         </div>
                     </div>
                 </div>
@@ -28,7 +30,8 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Tower</th>
-                                        <th>Desc</th>
+                                        <th>Floor</th>
+                                        <th>FloorDesc</th>
                                         <th>Detail</th>
                                     </tr>
                                 </thead>
@@ -41,45 +44,39 @@
                                                 <?= $i ?>
                                             </td>
                                             <td>
-                                                <a href="masterRoom/detailTower/<?= $m['tower_id'] ?>">
+                                                <a href="masterUnit?floorId=<?= $m['tower_id'] ?>">
                                                     <?= $m['tower_name'] ?>
                                                 </a>
 
                                             </td>
                                             <td>
-                                                <?= $m['tower_desc'] ?>
+                                                <?= $m['floor_number'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['floor_desc'] ?>
                                             </td>
                                             <td>
                                                 <ul class="list-unstyled hstack gap-1 mb-0">
-                                                    <li data-bs-toggle="modal" data-bs-target="#viewTowerModal"
-                                                        id="detailTower" data-nameMV="<?= $m['tower_name'] ?>"
-                                                        data-descMV="<?= $m['tower_desc'] ?>">
+                                                    <li data-bs-toggle="modal" data-bs-target="#viewFloorModal"
+                                                        id="detailFloor" data-tnameMV="<?= $m['tower_name'] ?>"
+                                                        data-numberMV="<?= $m['floor_number'] ?>"
+                                                        data-descMV="<?= $m['floor_desc'] ?>">
                                                         <a class="btn btn-sm btn-soft-primary"><i
                                                                 class="mdi mdi-eye-outline"></i></a>
                                                     </li>
-                                                    <li data-bs-toggle="modal" data-bs-target="#updateTowerModal"
-                                                        id="updateTower" data-idMU="<?= $m['tower_id'] ?>"
-                                                        data-nameMU="<?= $m['tower_name'] ?>"
-                                                        data-descMU="<?= $m['tower_desc'] ?>">
+                                                    <li data-bs-toggle="modal" data-bs-target="#updateFloorModal"
+                                                        id="updateTower" data-idMU="<?= $m['floor_id'] ?>"
+                                                        data-numberMU="<?= $m['floor_number'] ?>"
+                                                        data-descMU="<?= $m['floor_desc'] ?>"
+                                                        data-tnameMU="<?= $m['tower_name'] ?>">
                                                         <a class="btn btn-sm btn-soft-info"><i
                                                                 class="mdi mdi-pencil-outline"></i></a>
                                                     </li>
                                                     <li data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                        id="deleteTower" data-idMD="<?= $m['tower_id'] ?>">
+                                                        id="deleteTower" data-idMD="<?= $m['floor_id'] ?>">
                                                         <a class="btn btn-sm btn-soft-danger"><i
                                                                 class="mdi mdi-delete-outline"></i></a>
                                                     </li>
-                                                    <!-- <li>
-                                                        <a class="btn btn-sm btn-soft-info"><i
-                                                                class="mdi mdi-pencil-outline"></i></a>
-                                                    </li>
-                                                    <li data-bs-toggle="modal" data-bs-target="#viewTowerModal"
-                                                        id="detailTower" data-nameMV="<?= $m['tower_name'] ?>"
-                                                        data-descMV="<?= $m['tower_desc'] ?>">
-                                                        <a href="#jobDelete" data-bs-toggle="modal"
-                                                            class="btn btn-sm btn-soft-danger"><i
-                                                                class="mdi mdi-delete-outline"></i></a>
-                                                    </li> -->
                                                 </ul>
                                             </td>
                                         </tr>
@@ -99,76 +96,84 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create Tower</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Create Floor</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
+                                <input type="hidden" class="form-control" id="towerIdM" value="<?= $towerId ?>">
                                 <div class="mb-3">
-                                    <label class="form-label">Tower Name </label>
-                                    <input type="text" class="form-control" id="towerNameM" required
-                                        placeholder="Type tower name" />
+                                    <label class="form-label">Floor Number </label>
+                                    <input type="text" class="form-control" id="floorNumberM" required
+                                        placeholder="Type floor number" />
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Tower Desc</label>
+                                    <label class="form-label">Floor Desc</label>
                                     <div>
-                                        <input type="text" class="form-control" id="towerDescM" required
-                                            placeholder="Type tower desc" />
+                                        <input type="text" class="form-control" id="floorDescM" required
+                                            placeholder="Type floor desc" />
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="process">Create Tower</button>
+                            <button type="button" class="btn btn-primary" id="process">Create Floor</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- updateTowerModal -->
-            <div class="modal fade" id="updateTowerModal" tabindex="-1" aria-labelledby="updateTowerLabel"
+            <!-- updateFloorModal -->
+            <div class="modal fade" id="updateFloorModal" tabindex="-1" aria-labelledby="updateTowerLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="updateTowerLabel">Update Tower</h5>
+                            <h5 class="modal-title" id="updateTowerLabel">Update Floor</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
-                                <input type="hidden" class="form-control" id="towerIdMU">
+                                <input type="hidden" class="form-control" id="floorIdMU">
                                 <div class="mb-3">
-                                    <label class="form-label">Tower Name </label>
-                                    <input type="text" class="form-control" id="towerNameMU" required
-                                        placeholder="Type tower name" />
+                                    <label class="form-label">Tower Name</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="nameMU" disabled
+                                            placeholder="Type floor desc" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Floor </label>
+                                    <input type="number" class="form-control" id="floorNumberMU" required
+                                        placeholder="Type floor" />
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Tower Desc</label>
+                                    <label class="form-label">Floor Desc</label>
                                     <div>
-                                        <input type="text" class="form-control" id="towerDescMU" required
-                                            placeholder="Type tower desc" />
+                                        <input type="text" class="form-control" id="floorDescMU" required
+                                            placeholder="Type floor desc" />
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="updateProcess">Update Tower</button>
+                            <button type="button" class="btn btn-primary" id="updateProcess">Update Floor</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- viewTowerModal -->
-            <div class="modal fade" id="viewTowerModal" tabindex="-1" aria-labelledby="viewTowerModalLabel"
+            <div class="modal fade" id="viewFloorModal" tabindex="-1" aria-labelledby="viewFloorModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="viewTowerModalLabel">Detail Tower</h5>
+                            <h5 class="modal-title" id="viewFloorModalLabel">Detail Floor</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -176,8 +181,10 @@
                                 <div class="mb-3">
                                     <label class="form-label">Tower Name</label>
                                     <input type="text" class="form-control" id="towerNameMV" disabled />
-                                    <label class="form-label">Tower Desc</label>
-                                    <input type="text" class="form-control" id="towerDescMV" rows="5" disabled />
+                                    <label class="form-label">Floor</label>
+                                    <input type="text" class="form-control" id="floorNumberMV" disabled />
+                                    <label class="form-label">Floor Desc</label>
+                                    <input type="text" class="form-control" id="floorDescMV" rows="5" disabled />
                                 </div>
                             </form>
                         </div>
@@ -199,7 +206,7 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" class="form-control" id="idMD">
-                            <p>Are you sure you want to delete this data tower?</p>
+                            <p>Are you sure you want to delete this data floor?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">No</button>
@@ -223,17 +230,19 @@
     $(document).ready(function ($) {
         $(document).on('click', '#process', function () {
             console.log('clicked');
-            var name = $("#towerNameM").val();
-            var desc = $("#towerDescM").val();
+            var id = $("#towerIdM").val();
+            var number = $("#floorNumberM").val();
+            var desc = $("#floorDescM").val();
 
-            if (name != null && name !== "") {
+            if (number != null && number !== "") {
                 if (desc != null && desc !== "") {
                     $.ajax({
-                        url: "masterRoom/createTower",
+                        url: "masterFloor/createFloor",
                         type: 'post',
                         dataType: 'json',
                         data: {
-                            "name": name,
+                            "towerId": id,
+                            "number": number,
                             "desc": desc,
                             "_token": "{{ csrf_token() }}"
                         },
@@ -252,42 +261,47 @@
                     alert('Your desc is empty, please fill it in first');
                 }
             } else {
-                alert('Your name is empty, please fill it in first');
+                alert('Your floor number is empty, please fill it in first');
             }
         });
 
-        $(document).on('click', '#detailTower', function () {
-            name = $(this).attr('data-nameMV');
+        $(document).on('click', '#detailFloor', function () {
+            name = $(this).attr('data-tnameMV');
+            number = $(this).attr('data-numberMV');
             desc = $(this).attr('data-descMV');
 
             $('#towerNameMV').val(name);
-            $('#towerDescMV').val(desc);
+            $('#floorNumberMV').val(number);
+            $('#floorDescMV').val(desc);
         });
 
         $(document).on('click', '#updateTower', function () {
-            id = $(this).attr('data-idMU');
-            name = $(this).attr('data-nameMU');
-            desc = $(this).attr('data-descMU');
+            floorId = $(this).attr('data-idMU');
+            floorNumber = $(this).attr('data-numberMU');
+            floorDesc = $(this).attr('data-descMU');
+            towerName = $(this).attr('data-tnameMU');
 
-            $('#towerIdMU').val(id);
-            $('#towerNameMU').val(name);
-            $('#towerDescMU').val(desc);
+            $('#floorIdMU').val(floorId);
+            $('#nameMU').val(towerName);
+            $('#floorNumberMU').val(floorNumber);
+            $('#floorDescMU').val(floorDesc);
         });
 
         $(document).on('click', '#updateProcess', function () {
-            var id = $('#towerIdMU').val();
-            var name = $("#towerNameMU").val();
-            var desc = $("#towerDescMU").val();
-            console.log(id + name + desc)
-            if (name != null && name !== "") {
+            var id = $('#floorIdMU').val();
+            var number = $("#floorNumberMU").val();
+            var desc = $("#floorDescMU").val();
+
+
+            if (number != null && number !== "") {
                 if (desc != null && desc !== "") {
                     $.ajax({
-                        url: "masterRoom/updateTower",
+                        url: "masterFloor/updateFloor",
                         type: 'post',
                         dataType: 'json',
                         data: {
                             "id": id,
-                            "name": name,
+                            "number": number,
                             "desc": desc,
                             "_token": "{{ csrf_token() }}"
                         },
@@ -321,7 +335,7 @@
 
             if (id != null && id !== "") {
                 $.ajax({
-                    url: "masterRoom/deleteTower",
+                    url: "masterFloor/deleteFloor",
                     type: 'post',
                     dataType: 'json',
                     data: {

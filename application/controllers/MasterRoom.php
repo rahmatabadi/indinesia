@@ -9,13 +9,14 @@ class MasterRoom extends CI_Controller
                 parent::__construct();
                 $this->load->model('Menu_models', 'menuModels');
                 $this->load->model('Master_Room_models', 'masterRoomModels');
+                is_cekLogin();
         }
 
         public function index()
         {
                 $roleId = $this->session->userdata('roleId');
 
-                $data['title'] = ' Room';
+                $data['title'] = 'Master Room';
                 $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
@@ -72,25 +73,5 @@ class MasterRoom extends CI_Controller
                         echo json_encode(array("error" => "Failed Update Data"));
                 }
 
-        }
-
-        public function detailTower()
-        {
-
-                $roleId = $this->session->userdata('roleId');
-
-                $data['title'] = 'Detail Tower';
-                $data['fullname'] = $this->session->fullname;
-
-                $data['menu'] = $this->menuModels->getMenu($roleId);
-                $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
-                //$data['data'] = $this->masterRoomModels->getTower($this->session->siteId);
-
-
-                $this->load->view('templates/header', $data);
-                $this->load->view('templates/topbar', $data);
-                $this->load->view('templates/sidebar', $data);
-                $this->load->view('templates/footer', $data);
-                $this->load->view('masterRoom/detailTower', $data);
         }
 }
