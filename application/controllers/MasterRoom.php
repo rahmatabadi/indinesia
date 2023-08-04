@@ -15,7 +15,7 @@ class MasterRoom extends CI_Controller
         {
                 $roleId = $this->session->userdata('roleId');
 
-                $data['title'] = 'Master Room';
+                $data['title'] = ' Room';
                 $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
@@ -76,20 +76,21 @@ class MasterRoom extends CI_Controller
 
         public function detailTower()
         {
+
                 $roleId = $this->session->userdata('roleId');
 
-                $data['title'] = 'Master Room';
+                $data['title'] = 'Detail Tower';
                 $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
-                $data['data'] = $this->masterRoomModels->getTower($this->session->siteId);
+                //$data['data'] = $this->masterRoomModels->getTower($this->session->siteId);
 
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
                 $this->load->view('templates/sidebar', $data);
                 $this->load->view('templates/footer', $data);
-                $this->load->view('masterRoom/detailtower', $data);
+                $this->load->view('masterRoom/detailTower', $data);
         }
 }

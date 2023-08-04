@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Master Room</h4>
+                        <h4 class="mb-sm-0 font-size-18">Master </h4>
 
                         <div class="page-title-right">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -41,7 +41,7 @@
                                                 <?= $i ?>
                                             </td>
                                             <td>
-                                                <a href="<?= base_url('masterRoom/') ?>detailTower/<?= $m['tower_id'] ?>">
+                                                <a href="masterRoom/detailTower/<?= $m['tower_id'] ?>">
                                                     <?= $m['tower_name'] ?>
                                                 </a>
 

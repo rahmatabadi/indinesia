@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Master Room</h4>
+                        <h4 class="mb-sm-0 font-size-18">Master </h4>
 
                         <div class="page-title-right">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -36,40 +36,40 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $i ?>
-                                        </td>
-                                        <td>
-                                            <a href="masterRoom/detailTower/<?= $m['tower_id'] ?>">
-                                                <?= $m['tower_name'] ?>
-                                            </a>
+                                        <tr>
+                                            <td>
+                                                <?= $i ?>
+                                            </td>
+                                            <td>
+                                                <a href="masterRoom/detailTower/<?= $m['tower_id'] ?>">
+                                                    <?= $m['tower_name'] ?>
+                                                </a>
 
-                                        </td>
-                                        <td>
-                                            <?= $m['tower_desc'] ?>
-                                        </td>
-                                        <td>
-                                            <ul class="list-unstyled hstack gap-1 mb-0">
-                                                <li data-bs-toggle="modal" data-bs-target="#viewTowerModal"
-                                                    id="detailTower" data-nameMV="<?= $m['tower_name'] ?>"
-                                                    data-descMV="<?= $m['tower_desc'] ?>">
-                                                    <a class="btn btn-sm btn-soft-primary"><i
-                                                            class="mdi mdi-eye-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="modal" data-bs-target="#updateTowerModal"
-                                                    id="updateTower" data-idMU="<?= $m['tower_id'] ?>"
-                                                    data-nameMU="<?= $m['tower_name'] ?>"
-                                                    data-descMU="<?= $m['tower_desc'] ?>">
-                                                    <a class="btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                    id="deleteTower" data-idMD="<?= $m['tower_id'] ?>">
-                                                    <a class="btn btn-sm btn-soft-danger"><i
-                                                            class="mdi mdi-delete-outline"></i></a>
-                                                </li>
-                                                <!-- <li>
+                                            </td>
+                                            <td>
+                                                <?= $m['tower_desc'] ?>
+                                            </td>
+                                            <td>
+                                                <ul class="list-unstyled hstack gap-1 mb-0">
+                                                    <li data-bs-toggle="modal" data-bs-target="#viewTowerModal"
+                                                        id="detailTower" data-nameMV="<?= $m['tower_name'] ?>"
+                                                        data-descMV="<?= $m['tower_desc'] ?>">
+                                                        <a class="btn btn-sm btn-soft-primary"><i
+                                                                class="mdi mdi-eye-outline"></i></a>
+                                                    </li>
+                                                    <li data-bs-toggle="modal" data-bs-target="#updateTowerModal"
+                                                        id="updateTower" data-idMU="<?= $m['tower_id'] ?>"
+                                                        data-nameMU="<?= $m['tower_name'] ?>"
+                                                        data-descMU="<?= $m['tower_desc'] ?>">
+                                                        <a class="btn btn-sm btn-soft-info"><i
+                                                                class="mdi mdi-pencil-outline"></i></a>
+                                                    </li>
+                                                    <li data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                        id="deleteTower" data-idMD="<?= $m['tower_id'] ?>">
+                                                        <a class="btn btn-sm btn-soft-danger"><i
+                                                                class="mdi mdi-delete-outline"></i></a>
+                                                    </li>
+                                                    <!-- <li>
                                                         <a class="btn btn-sm btn-soft-info"><i
                                                                 class="mdi mdi-pencil-outline"></i></a>
                                                     </li>
@@ -80,10 +80,10 @@
                                                             class="btn btn-sm btn-soft-danger"><i
                                                                 class="mdi mdi-delete-outline"></i></a>
                                                     </li> -->
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <?php $i++; ?>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -220,79 +220,116 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    $(document).on('click', '#process', function() {
-        console.log('clicked');
-        var name = $("#towerNameM").val();
-        var desc = $("#towerDescM").val();
+    $(document).ready(function ($) {
+        $(document).on('click', '#process', function () {
+            console.log('clicked');
+            var name = $("#towerNameM").val();
+            var desc = $("#towerDescM").val();
 
-        if (name != null && name !== "") {
-            if (desc != null && desc !== "") {
-                $.ajax({
-                    url: "masterRoom/createTower",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        "name": name,
-                        "desc": desc,
-                        "_token": "{{ csrf_token() }}"
-                    },
+            if (name != null && name !== "") {
+                if (desc != null && desc !== "") {
+                    $.ajax({
+                        url: "masterRoom/createTower",
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            "name": name,
+                            "desc": desc,
+                            "_token": "{{ csrf_token() }}"
+                        },
 
-                    success: function(result) {
-                        console.log(result);
-                        if (result.success) {
-                            location.reload();
-                        } else {
-                            alert(result.error);
-                            //location.reload();
+                        success: function (result) {
+                            console.log(result);
+                            if (result.success) {
+                                location.reload();
+                            } else {
+                                alert(result.error);
+                                //location.reload();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    alert('Your desc is empty, please fill it in first');
+                }
             } else {
-                alert('Your desc is empty, please fill it in first');
+                alert('Your name is empty, please fill it in first');
             }
-        } else {
-            alert('Your name is empty, please fill it in first');
-        }
-    });
+        });
 
-    $(document).on('click', '#detailTower', function() {
-        name = $(this).attr('data-nameMV');
-        desc = $(this).attr('data-descMV');
+        $(document).on('click', '#detailTower', function () {
+            name = $(this).attr('data-nameMV');
+            desc = $(this).attr('data-descMV');
 
-        $('#towerNameMV').val(name);
-        $('#towerDescMV').val(desc);
-    });
+            $('#towerNameMV').val(name);
+            $('#towerDescMV').val(desc);
+        });
 
-    $(document).on('click', '#updateTower', function() {
-        id = $(this).attr('data-idMU');
-        name = $(this).attr('data-nameMU');
-        desc = $(this).attr('data-descMU');
+        $(document).on('click', '#updateTower', function () {
+            id = $(this).attr('data-idMU');
+            name = $(this).attr('data-nameMU');
+            desc = $(this).attr('data-descMU');
 
-        $('#towerIdMU').val(id);
-        $('#towerNameMU').val(name);
-        $('#towerDescMU').val(desc);
-    });
+            $('#towerIdMU').val(id);
+            $('#towerNameMU').val(name);
+            $('#towerDescMU').val(desc);
+        });
 
-    $(document).on('click', '#updateProcess', function() {
-        var id = $('#towerIdMU').val();
-        var name = $("#towerNameMU").val();
-        var desc = $("#towerDescMU").val();
-        console.log(id + name + desc)
-        if (name != null && name !== "") {
-            if (desc != null && desc !== "") {
+        $(document).on('click', '#updateProcess', function () {
+            var id = $('#towerIdMU').val();
+            var name = $("#towerNameMU").val();
+            var desc = $("#towerDescMU").val();
+            console.log(id + name + desc)
+            if (name != null && name !== "") {
+                if (desc != null && desc !== "") {
+                    $.ajax({
+                        url: "masterRoom/updateTower",
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            "id": id,
+                            "name": name,
+                            "desc": desc,
+                            "_token": "{{ csrf_token() }}"
+                        },
+
+                        success: function (result) {
+                            console.log(result);
+                            if (result.success) {
+                                location.reload();
+                            } else {
+                                alert(result.error);
+                                //location.reload();
+                            }
+                        }
+                    });
+                } else {
+                    alert('Your desc is empty, please fill it in first');
+                }
+            } else {
+                alert('Your name is empty, please fill it in first');
+            }
+        });
+
+        $(document).on('click', '#deleteTower', function () {
+            id = $(this).attr('data-idMD');
+
+            $('#idMD').val(id);
+        });
+
+        $(document).on('click', '#deleteMD', function () {
+            var id = $("#idMD").val();
+
+            if (id != null && id !== "") {
                 $.ajax({
-                    url: "masterRoom/updateTower",
+                    url: "masterRoom/deleteTower",
                     type: 'post',
                     dataType: 'json',
                     data: {
                         "id": id,
-                        "name": name,
-                        "desc": desc,
                         "_token": "{{ csrf_token() }}"
                     },
 
-                    success: function(result) {
+                    success: function (result) {
                         console.log(result);
                         if (result.success) {
                             location.reload();
@@ -303,45 +340,8 @@ $(document).ready(function($) {
                     }
                 });
             } else {
-                alert('Your desc is empty, please fill it in first');
+                alert('Your id is empty');
             }
-        } else {
-            alert('Your name is empty, please fill it in first');
-        }
+        });
     });
-
-    $(document).on('click', '#deleteTower', function() {
-        id = $(this).attr('data-idMD');
-
-        $('#idMD').val(id);
-    });
-
-    $(document).on('click', '#deleteMD', function() {
-        var id = $("#idMD").val();
-
-        if (id != null && id !== "") {
-            $.ajax({
-                url: "masterRoom/deleteTower",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    "id": id,
-                    "_token": "{{ csrf_token() }}"
-                },
-
-                success: function(result) {
-                    console.log(result);
-                    if (result.success) {
-                        location.reload();
-                    } else {
-                        alert(result.error);
-                        //location.reload();
-                    }
-                }
-            });
-        } else {
-            alert('Your id is empty');
-        }
-    });
-});
 </script>
