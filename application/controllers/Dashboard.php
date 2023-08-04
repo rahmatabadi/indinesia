@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller
         {
                 $roleId = $this->session->userdata('roleId');
                 $data['fullname'] = $this->session->fullname;
+                $data['siteName'] = $this->session->siteName;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);

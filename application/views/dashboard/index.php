@@ -29,7 +29,9 @@
                                 <div class="col-7">
                                     <div class="text-primary p-3">
                                         <h5 class="text-primary">Welcome Back !</h5>
-                                        <p>Indinesia</p>
+                                        <p>
+                                            <?= $siteName ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end">
@@ -44,7 +46,9 @@
                                         <img src="assets/images/users/avatar-1.jpg" alt=""
                                             class="img-thumbnail rounded-circle">
                                     </div>
-                                    <h5 class="font-size-15 text-truncate"><?= $fullname ?></h5>
+                                    <h5 class="font-size-15 text-truncate">
+                                        <?= $fullname ?>
+                                    </h5>
                                     <!-- <p class="text-muted mb-0 text-truncate">UI/UX Designer</p> -->
                                 </div>
 

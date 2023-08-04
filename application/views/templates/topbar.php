@@ -5,10 +5,10 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-indi.png" alt="" height="40">
+                        <img src="<?= base_url('assets/images/logo-indi.png') ?>" alt="" height="40">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-indi.png" alt="" height="40">
+                        <img src="<?= base_url('assets/images/logo-indi.png') ?>" alt="" height="40">
                     </span>
                 </a>
             </div>
@@ -21,8 +21,8 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
-                        alt="Header Avatar">
+                    <img class="rounded-circle header-profile-user" src="
+                        <?= base_url('assets/images/users/avatar-1.jpg') ?>" alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1" key="t-henry">
                         <?= $fullname ?>
                     </span>

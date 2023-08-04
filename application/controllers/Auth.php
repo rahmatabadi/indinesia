@@ -31,7 +31,9 @@ class Auth extends CI_Controller
             $newdata = array(
                 'username' => $validation['username'],
                 'fullname' => $validation['fullname'],
-                'roleId' => $validation['role_id']
+                'roleId' => $validation['role_id'],
+                'siteName' => $validation['site_name'],
+                'siteId' => $validation['site_id'],
             );
 
             $this->session->set_userdata($newdata);
