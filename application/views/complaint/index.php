@@ -34,7 +34,6 @@
                                         <th>Assign</th>
                                         <th>Date</th>
                                         <th>Status</th>
-                                        <!-- <th>Detail</th> -->
                                     </tr>
                                 </thead>
 
@@ -42,63 +41,45 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $i ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['room'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['phone'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['message'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['departement_name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['date'] ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($m['status'] == 1): ?>
-                                            <span class="badge bg-info">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 2): ?>
-                                            <span class="badge bg-warning">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 3): ?>
-                                            <span class="badge bg-success">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <!-- <td>
-                                            <ul class="list-unstyled hstack gap-1 mb-0">
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top" aria-label="View">
-                                                    <a href="job-details.html" class="btn btn-sm btn-soft-primary"><i
-                                                            class="mdi mdi-eye-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit">
-                                                    <a href="#" class="btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    aria-label="Delete">
-                                                    <a href="#jobDelete" data-bs-toggle="modal"
-                                                        class="btn btn-sm btn-soft-danger"><i
-                                                            class="mdi mdi-delete-outline"></i></a>
-                                                </li>
-                                            </ul>
-                                        </td> -->
-                                    </tr>
-                                    <?php $i++; ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['room'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['phone'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['message'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['departement_name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['date'] ?>
+                                            </td>
+                                            <td>
+                                                <?php if ($m['status'] == 1): ?>
+                                                    <span class="badge bg-info">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 2): ?>
+                                                    <span class="badge bg-warning">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 3): ?>
+                                                    <span class="badge bg-success">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -152,7 +133,7 @@
                                     <select class="form-select" id="departementSelectM">
                                         <option value="0">Select</option>
                                         <?php foreach ($departement as $d): ?>
-                                        <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
+                                            <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
 
@@ -178,80 +159,80 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    $(document).on('click', '#process', function() {
-        console.log('clicked');
-        var name = $("#nameM").val();
-        var phone = $("#phoneM").val();
-        var room = $("#roomM").val();
-        var message = $("#messageM").val();
-        var departement = $("#departementSelectM").val();
+    $(document).ready(function ($) {
+        $(document).on('click', '#process', function () {
+            console.log('clicked');
+            var name = $("#nameM").val();
+            var phone = $("#phoneM").val();
+            var room = $("#roomM").val();
+            var message = $("#messageM").val();
+            var departement = $("#departementSelectM").val();
 
-        if (name != null && name !== "") {
-            if (phone != null && phone !== "") {
-                if (room != null && room !== "") {
-                    if (message != null && message !== "") {
-                        if (departement != null && departement !== "" && departement !== "0") {
-                            $.ajax({
-                                url: "complaint/createComplaint",
-                                type: 'post',
-                                dataType: 'json',
-                                data: {
-                                    "name": name,
-                                    "phone": phone,
-                                    "room": room,
-                                    "message": message,
-                                    "departement": departement,
-                                    "_token": "{{ csrf_token() }}"
-                                },
+            if (name != null && name !== "") {
+                if (phone != null && phone !== "") {
+                    if (room != null && room !== "") {
+                        if (message != null && message !== "") {
+                            if (departement != null && departement !== "" && departement !== "0") {
+                                $.ajax({
+                                    url: "complaint/createComplaint",
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        "name": name,
+                                        "phone": phone,
+                                        "room": room,
+                                        "message": message,
+                                        "departement": departement,
+                                        "_token": "{{ csrf_token() }}"
+                                    },
 
-                                success: function(result) {
-                                    console.log(result);
-                                    if (result.success) {
-                                        location.reload();
-                                    } else {
-                                        alert(result.error);
-                                        //location.reload();
+                                    success: function (result) {
+                                        console.log(result);
+                                        if (result.success) {
+                                            location.reload();
+                                        } else {
+                                            alert(result.error);
+                                            //location.reload();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                alert('Your assign is empty, please fill it in first');
+                            }
                         } else {
-                            alert('Your assign is empty, please fill it in first');
+                            alert('Your message is empty, please fill it in first');
                         }
                     } else {
-                        alert('Your message is empty, please fill it in first');
+                        alert('Your room number is empty, please fill it in first');
                     }
                 } else {
-                    alert('Your room number is empty, please fill it in first');
+                    alert('Your phone number is empty, please fill it in first');
                 }
             } else {
-                alert('Your phone number is empty, please fill it in first');
+                alert('Your name is empty, please fill it in first');
             }
-        } else {
-            alert('Your name is empty, please fill it in first');
-        }
-    });
-    $("#departementSelectM").change(function() {
-        console.log('AAAA');
-        // var selected_option = $('#akunSourceModal').val();
-        // console.log(selected_option);
+        });
+        $("#departementSelectM").change(function () {
+            console.log('AAAA');
+            // var selected_option = $('#akunSourceModal').val();
+            // console.log(selected_option);
 
-        // $.ajax({
-        //     url: "beban/getSaldo",
-        //     type: 'get',
-        //     data: {
-        //         "account_id": selected_option,
-        //         "_token": "{{ csrf_token() }}"
-        //     },
-        //     success: function(result) {
-        //         if (result.success) {
-        //             $("#saldoSourceModal").val('Rp. ' + commaSeparateNumber(result.data[0]
-        //                 .balance));
-        //         } else {
-        //             alert('Gagal Memuat Saldo');
-        //         }
-        //     }
-        // });
+            // $.ajax({
+            //     url: "beban/getSaldo",
+            //     type: 'get',
+            //     data: {
+            //         "account_id": selected_option,
+            //         "_token": "{{ csrf_token() }}"
+            //     },
+            //     success: function(result) {
+            //         if (result.success) {
+            //             $("#saldoSourceModal").val('Rp. ' + commaSeparateNumber(result.data[0]
+            //                 .balance));
+            //         } else {
+            //             alert('Gagal Memuat Saldo');
+            //         }
+            //     }
+            // });
+        });
     });
-});
 </script>
