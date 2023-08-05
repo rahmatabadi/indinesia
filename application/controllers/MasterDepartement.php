@@ -1,49 +1,40 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MasterUnit extends CI_Controller
+class MasterDepartement extends CI_Controller
 {
 
         public function __construct()
         {
                 parent::__construct();
                 $this->load->model('Menu_models', 'menuModels');
-                $this->load->model('Master_Unit_models', 'masterUnitModels');
+                $this->load->model('Master_Departement_models', 'masterDepartementModels');
                 is_cekLogin();
         }
 
         public function index()
         {
                 $roleId = $this->session->userdata('roleId');
-                $data['floorId'] = $_GET['floorId'];
-                $data['towerId'] = $_GET['towerId'];
 
-                $towerName = $this->masterUnitModels->getTowerName($data['towerId']);
-                $floorNumber = $this->masterUnitModels->getFloorNumber($data['floorId']);
-
-                $data['title'] = 'Master Unit Tower ' . $towerName['tower_name'] . ' Floor ' . $floorNumber['floor_number'];
-
+                $data['title'] = 'Master Departement';
                 $data['fullname'] = $this->session->fullname;
 
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
-                $data['data'] = $this->masterUnitModels->getUnit($data['towerId'], $data['floorId'], $this->session->siteId);
-
+                $data['data'] = $this->masterDepartementModels->getDepartement($this->session->siteId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
                 $this->load->view('templates/sidebar', $data);
                 $this->load->view('templates/footer', $data);
-                $this->load->view('masterUnit/index', $data);
+                $this->load->view('masterDepartement/index', $data);
         }
 
-        public function createUnit()
+        public function createDepartement()
         {
-                $floorId = $this->input->post('floorId');
-                $number = $this->input->post('number');
-                $desc = $this->input->post('desc');
+                $name = $this->input->post('name');
 
-                $create = $this->masterUnitModels->createUnit($number, $desc, $floorId, $this->session->siteId);
+                $create = $this->masterDepartementModels->createDepartement($name, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
@@ -53,32 +44,30 @@ class MasterUnit extends CI_Controller
 
         }
 
-        public function updateUnit()
-        {
-                $id = $this->input->post('id');
-                $number = $this->input->post('number');
-                $desc = $this->input->post('desc');
-
-                $create = $this->masterUnitModels->updateUnit($id, $number, $desc);
-
-                if ($create) {
-                        echo json_encode(array("success" => "Success"));
-                } else {
-                        echo json_encode(array("error" => "Failed Update Data"));
-                }
-
-        }
-
-        public function deleteUnit()
+        public function deleteDepartement()
         {
                 $id = $this->input->post('id');
 
-                $create = $this->masterUnitModels->deleteUnit($id);
+                $create = $this->masterDepartementModels->deleteDepartement($id);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
                 } else {
                         echo json_encode(array("error" => "Failed Delete Data"));
+                }
+
+        }
+        public function updateDepartement()
+        {
+                $id = $this->input->post('id');
+                $name = $this->input->post('name');
+
+                $create = $this->masterDepartementModels->updateDepartement($id, $name);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Failed Update Data"));
                 }
 
         }

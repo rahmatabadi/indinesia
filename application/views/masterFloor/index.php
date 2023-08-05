@@ -31,7 +31,7 @@
                                         <th>No</th>
                                         <th>Tower</th>
                                         <th>Floor</th>
-                                        <th>FloorDesc</th>
+                                        <th>Floor Desc</th>
                                         <th>Detail</th>
                                     </tr>
                                 </thead>
@@ -47,7 +47,8 @@
                                                 <?= $m['tower_name'] ?>
                                             </td>
                                             <td>
-                                                <a href="masterUnit?floorId=<?= $m['tower_id'] ?>">
+                                                <a
+                                                    href="masterUnit?floorId=<?= $m['floor_id'] ?>&towerId=<?= $m['tower_id'] ?>">
                                                     <?= $m['floor_number'] ?>
                                                 </a>
                                             </td>
