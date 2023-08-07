@@ -12,9 +12,14 @@ class Complaint_models extends CI_Model
             ->get()->result_array();
     }
 
-    public function getDepartement()
+    public function getDepartement($siteId)
     {
-        return $this->db->get('departement')->result_array();
+        return $this->db->get_where('departement', array('site_id' => $siteId))->result_array();
+    }
+
+    public function getTower($siteId)
+    {
+        return $this->db->get_where('master_tower', array('site_id' => $siteId))->result_array();
     }
 
     public function createComplaint($name, $phone, $room, $message, $departement)

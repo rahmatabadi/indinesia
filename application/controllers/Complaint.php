@@ -9,18 +9,20 @@ class Complaint extends CI_Controller
                 parent::__construct();
                 $this->load->model('Menu_models', 'menuModels');
                 $this->load->model('Complaint_models', 'complaintModels');
+                is_cekLogin();
         }
 
         public function index()
         {
                 $roleId = $this->session->userdata('roleId');
-
+                //$this->session->siteId
                 $data['title'] = 'Complaint';
                 $data['fullname'] = $this->session->fullname;
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
                 $data['data'] = $this->complaintModels->getDataComplaint();
-                $data['departement'] = $this->complaintModels->getDepartement();
+                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId);
+                $data['tower'] = $this->complaintModels->getTower($this->session->siteId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);

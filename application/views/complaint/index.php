@@ -115,10 +115,33 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Room Number</label>
-                                    <div>
-                                        <input type="number" class="form-control" id="roomM" required placeholder="101">
-                                    </div>
+                                    <label class="form-label">Tower</label>
+                                    <select class="form-select" id="towerSelectM">
+                                        <option value="">Select</option>
+                                        <?php foreach ($tower as $d): ?>
+                                            <option value="<?= $d['tower_id'] ?>"><?= $d['tower_name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3" id="forFloorM">
+                                    <label class="form-label">Floor</label>
+                                    <select class="form-select" id="floorSelectM">
+                                        <option value="">Select</option>
+                                        <?php foreach ($tower as $d): ?>
+                                            <!-- <option value="<?= $d['tower_id'] ?>"><?= $d['tower_name'] ?></option> -->
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3" id="forUnitM">
+                                    <label class="form-label">Unit</label>
+                                    <select class="form-select" id="unitSelectM">
+                                        <option value="">Select</option>
+                                        <?php foreach ($tower as $d): ?>
+                                            <!-- <option value="<?= $d['tower_id'] ?>"><?= $d['tower_name'] ?></option> -->
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
@@ -160,6 +183,13 @@
 
 <script>
     $(document).ready(function ($) {
+        forFloor = document.getElementById("forFloorM");
+        forUnit = document.getElementById("forUnitM");
+        forFloor.setAttribute("hidden", "hidden");
+        forUnit.setAttribute("hidden", "hidden");
+        //forCash = document.getElementById("forCash");
+        // forCash.setAttribute("hidden", "hidden");
+        // forCash.removeAttribute("hidden");
         $(document).on('click', '#process', function () {
             console.log('clicked');
             var name = $("#nameM").val();
@@ -212,10 +242,11 @@
                 alert('Your name is empty, please fill it in first');
             }
         });
-        $("#departementSelectM").change(function () {
+        $("#towerSelectM").change(function () {
             console.log('AAAA');
-            // var selected_option = $('#akunSourceModal').val();
-            // console.log(selected_option);
+            var selected_option = $('#towerSelectM').val();
+            console.log(selected_option);
+            forFloor.removeAttribute("hidden");
 
             // $.ajax({
             //     url: "beban/getSaldo",
