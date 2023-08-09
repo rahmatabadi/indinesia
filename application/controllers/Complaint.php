@@ -35,14 +35,44 @@ class Complaint extends CI_Controller
         {
                 $name = $this->input->post('name');
                 $phone = $this->input->post('phone');
-                $room = $this->input->post('room');
+                $tower = $this->input->post('tower');
+                $floor = $this->input->post('floor');
+                $unit = $this->input->post('unit');
                 $message = $this->input->post('message');
                 $departement = $this->input->post('departement');
 
-                $create = $this->complaintModels->createComplaint($name, $phone, $room, $message, $departement);
+                $create = $this->complaintModels->createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function getFloor()
+        {
+                $towerId = $this->input->post('towerId');
+
+                $create = $this->complaintModels->getFloor($towerId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success", "data" => $create));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function getUnit()
+        {
+                $floorId = $this->input->post('floorId');
+
+                $create = $this->complaintModels->getUnit($floorId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success", "data" => $create));
                 } else {
                         echo json_encode(array("error" => "Data Tidak Ditemukan"));
                 }

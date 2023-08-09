@@ -27,7 +27,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Room</th>
+                                        <th>Tower</th>
+                                        <th>Floor</th>
+                                        <th>Unit</th>
                                         <th>Name</th>
                                         <th>Phone</th>
                                         <th>Complaint</th>
@@ -47,7 +49,13 @@
                                                 <?= $i ?>
                                             </td>
                                             <td>
-                                                <?= $m['room'] ?>
+                                                <?= $m['tower_name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['floor_number'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['unit_number'] ?>
                                             </td>
                                             <td>
                                                 <?= $m['phone'] ?>
@@ -90,25 +98,6 @@
                                                 <?php endif; ?>
 
                                             </td>
-
-                                            <!-- <td>
-                                            <ul class="list-unstyled hstack gap-1 mb-0">
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top" aria-label="View">
-                                                    <a href="job-details.html" class="btn btn-sm btn-soft-primary"><i
-                                                            class="mdi mdi-eye-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Edit">
-                                                    <a href="#" class="btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
-                                                <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    aria-label="Delete">
-                                                    <a href="#jobDelete" data-bs-toggle="modal"
-                                                        class="btn btn-sm btn-soft-danger"><i
-                                                            class="mdi mdi-delete-outline"></i></a>
-                                                </li>
-                                            </ul>
-                                        </td> -->
                                         </tr>
                                         <?php $i++; ?>
                                     <?php endforeach; ?>
@@ -134,8 +123,17 @@
                                 <div class="mb-3">
                                     <label class="form-label">Name </label>
                                     <input type="hidden" class="form-control" id="idU" name="idU">
-                                    <input type="text" class="form-control" id="nameM" required
-                                        placeholder="Type your name" />
+                                    <select class="form-select" id="employeeSelectM">
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Is it Paid? </label>
+                                    <select class="form-select" id="paidSelectM">
+                                        <option value="99" selected="true" disabled="disabled">Choose Paid or Not
+                                        </option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -159,6 +157,34 @@
 
 <script>
     $(document).ready(function ($) {
+        //get Employee
+        $.ajax({
+            url: "approval/getEmployee",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                "_token": "{{ csrf_token() }}"
+            },
+
+            success: function (result) {
+                console.log(result);
+                if (result.success) {
+                    $('#employeeSelectM').append(
+                        '<option value="99" selected="true" disabled="disabled">Choose Employee</option>'
+                    );
+                    for (var i = 0; i <= result.data.length; i++) {
+                        $('#employeeSelectM').append('<option value="' + result.data[i]
+                            .employee_id +
+                            '">' +
+                            result.data[i].employee_name + '</option>');
+                    }
+                } else {
+                    alert(result.error);
+                    //location.reload();
+                }
+            }
+        });
+
         $(document).on('click', '#assign', function () {
             id = $(this).attr('data-idC');
 
@@ -191,16 +217,20 @@
         });
         $(document).on('click', '#process', function () {
             id = $("#idU").val();
-            name = $("#nameM").val();
+            employee_id = $("#employeeSelectM").val();
+            paid = $("#paidSelectM").val();
+            console.log($("#paidSelectM").val())
 
-            if (name != null && name !== "") {
+            if (employee_id != null && employee_id !== "" &&
+                paid != null && paid !== "") {
                 $.ajax({
                     url: "approval/updateWorker",
                     type: 'post',
                     dataType: 'json',
                     data: {
                         "id": id,
-                        "name": name,
+                        "employee_id": employee_id,
+                        "paid": paid,
                         "_token": "{{ csrf_token() }}"
                     },
 
@@ -214,7 +244,7 @@
                     }
                 });
             } else {
-                alert('Your name is empty, please fill it in first');
+                alert('Please fill it in first');
             }
         });
     });

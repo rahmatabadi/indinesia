@@ -8,6 +8,9 @@ class Complaint_models extends CI_Model
             ->from('complaint a')
             ->join('status_complaint b', 'a.status = b.id')
             ->join('departement c', 'a.assign = c.id')
+            ->join('master_tower d', 'a.tower_id = d.tower_id')
+            ->join('master_floor e', 'a.floor_id = e.floor_id')
+            ->join('master_unit f', 'a.unit_id = f.unit_id')
             ->order_by('a.id DESC')
             ->get()->result_array();
     }
@@ -22,13 +25,16 @@ class Complaint_models extends CI_Model
         return $this->db->get_where('master_tower', array('site_id' => $siteId))->result_array();
     }
 
-    public function createComplaint($name, $phone, $room, $message, $departement)
+    public function createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $siteId)
     {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'name' => $name,
             'phone' => $phone,
-            'room' => $room,
+            'tower_id' => $tower,
+            'floor_id' => $floor,
+            'unit_id' => $unit,
+            'site_id' => $siteId,
             'message' => $message,
             'assign' => $departement,
             'status' => '1',
@@ -48,5 +54,15 @@ class Complaint_models extends CI_Model
         );
 
         return $this->db->insert('log_history', $dataLog);
+    }
+
+    public function getFloor($towerId)
+    {
+        return $this->db->get_where('master_floor', array('tower_id' => $towerId))->result_array();
+    }
+
+    public function getUnit($floorId)
+    {
+        return $this->db->get_where('master_unit', array('floor_id' => $floorId))->result_array();
     }
 }

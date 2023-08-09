@@ -33,9 +33,10 @@ class Approval extends CI_Controller
     {
         $roleId = $this->session->userdata('roleId');
         $id = $this->input->post('id');
-        $name = $this->input->post('name');
+        $employee_id = $this->input->post('employee_id');
+        $paid = $this->input->post('paid');
 
-        $create = $this->approvalModels->updateWorker($id, $name, $roleId);
+        $create = $this->approvalModels->updateWorker($id, $employee_id, $paid, $roleId);
 
         if ($create) {
             echo json_encode(array("success" => "Success"));
@@ -55,6 +56,19 @@ class Approval extends CI_Controller
             echo json_encode(array("success" => "Success"));
         } else {
             echo json_encode(array("error" => "Data Tidak Ditemukan"));
+        }
+    }
+
+    public function getEmployee()
+    {
+        $roleId = $this->session->userdata('roleId');
+
+        $getEmployee = $this->approvalModels->getEmployee($roleId, $this->session->siteId);
+
+        if ($getEmployee) {
+            echo json_encode(array("success" => "Success", "data" => $getEmployee));
+        } else {
+            echo json_encode(array("error" => "Empty Employee"));
         }
     }
 
