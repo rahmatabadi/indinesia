@@ -35,8 +35,9 @@ class Approval extends CI_Controller
         $id = $this->input->post('id');
         $employee_id = $this->input->post('employee_id');
         $paid = $this->input->post('paid');
+        $category = $this->input->post('category');
 
-        $create = $this->approvalModels->updateWorker($id, $employee_id, $paid, $roleId);
+        $create = $this->approvalModels->updateWorker($id, $employee_id, $paid, $category, $roleId);
 
         if ($create) {
             echo json_encode(array("success" => "Success"));
@@ -69,6 +70,19 @@ class Approval extends CI_Controller
             echo json_encode(array("success" => "Success", "data" => $getEmployee));
         } else {
             echo json_encode(array("error" => "Empty Employee"));
+        }
+    }
+
+    public function getCategoryComplaint()
+    {
+        $roleId = $this->session->userdata('roleId');
+
+        $getEmployee = $this->approvalModels->getCategoryComplaint($roleId, $this->session->siteId);
+
+        if ($getEmployee) {
+            echo json_encode(array("success" => "Success", "data" => $getEmployee));
+        } else {
+            echo json_encode(array("error" => "Empty Category Complaint"));
         }
     }
 

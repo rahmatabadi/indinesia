@@ -15,9 +15,9 @@ class Approval_models extends CI_Model
             ->get()->result_array();
     }
 
-    public function updateWorker($id, $employee_id, $paid, $roleId)
+    public function updateWorker($id, $employee_id, $paid, $category, $roleId)
     {
-        $this->db->update('complaint', array('worker' => $employee_id, 'status' => '2', 'paid' => $paid), array('id' => $id));
+        $this->db->update('complaint', array('worker' => $employee_id, 'status' => '2', 'paid' => $paid, 'category_id' => $category), array('id' => $id));
 
         $dataLog = array(
             'complaint_id' => $id,
@@ -48,5 +48,9 @@ class Approval_models extends CI_Model
     public function getEmployee($roleId, $siteId)
     {
         return $this->db->get_where('master_employee', array('departement_id' => $roleId, 'site_id' => $siteId))->result_array();
+    }
+    public function getCategoryComplaint($roleId, $siteId)
+    {
+        return $this->db->get_where('master_category_complaint', array('departement_id' => $roleId, 'site_id' => $siteId))->result_array();
     }
 }

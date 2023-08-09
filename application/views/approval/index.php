@@ -121,6 +121,11 @@
                         <div class="modal-body">
                             <form>
                                 <div class="mb-3">
+                                    <label class="form-label">Category </label>
+                                    <select class="form-select" id="categorySelectM">
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">Name </label>
                                     <input type="hidden" class="form-control" id="idU" name="idU">
                                     <select class="form-select" id="employeeSelectM">
@@ -185,6 +190,34 @@
             }
         });
 
+        //get Category
+        $.ajax({
+            url: "approval/getCategoryComplaint",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                "_token": "{{ csrf_token() }}"
+            },
+
+            success: function (result) {
+                console.log(result);
+                if (result.success) {
+                    $('#categorySelectM').append(
+                        '<option value="99" selected="true" disabled="disabled">Choose Category</option>'
+                    );
+                    for (var i = 0; i <= result.data.length; i++) {
+                        $('#categorySelectM').append('<option value="' + result.data[i]
+                            .category_complaint_id +
+                            '">' +
+                            result.data[i].category_complaint_name + '</option>');
+                    }
+                } else {
+                    alert(result.error);
+                    //location.reload();
+                }
+            }
+        });
+
         $(document).on('click', '#assign', function () {
             id = $(this).attr('data-idC');
 
@@ -219,6 +252,7 @@
             id = $("#idU").val();
             employee_id = $("#employeeSelectM").val();
             paid = $("#paidSelectM").val();
+            category = $("#categorySelectM").val();
             console.log($("#paidSelectM").val())
 
             if (employee_id != null && employee_id !== "" &&
@@ -231,6 +265,7 @@
                         "id": id,
                         "employee_id": employee_id,
                         "paid": paid,
+                        "category": category,
                         "_token": "{{ csrf_token() }}"
                     },
 
