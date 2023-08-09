@@ -36,8 +36,9 @@ class MasterBarang extends CI_Controller
         {
                 $name = $this->input->post('name');
                 $stock = $this->input->post('stock');
+                $desc = $this->input->post('desc');
 
-                $create = $this->masterBarangModels->createProduct($name, $stock, $this->session->siteId);
+                $create = $this->masterBarangModels->createProduct($name, $stock, $desc, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
@@ -52,8 +53,9 @@ class MasterBarang extends CI_Controller
                 $id = $this->input->post('id');
                 $name = $this->input->post('name');
                 $stock = $this->input->post('stock');
+                $desc = $this->input->post('desc');
 
-                $create = $this->masterBarangModels->updateProduct($id, $name, $stock);
+                $create = $this->masterBarangModels->updateProduct($id, $name, $stock, $desc);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));

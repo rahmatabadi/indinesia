@@ -2,12 +2,13 @@
 
 class Master_Barang_models extends CI_Model
 {
-    public function createProduct($name, $stock, $siteId)
+    public function createProduct($name, $stock, $desc, $siteId)
     {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'barang_name' => $name,
             'barang_stock' => $stock,
+            'barang_desc' => $desc,
             'site_id' => $siteId,
             'date' => date('d-m-Y H:i:s')
         );
@@ -20,9 +21,9 @@ class Master_Barang_models extends CI_Model
         return $this->db->get_where('master_barang', array('site_id' => $siteId))->result_array();
     }
 
-    public function updateProduct($id, $name, $stock)
+    public function updateProduct($id, $name, $stock, $desc)
     {
-        return $this->db->update('master_barang', array('barang_name' => $name, 'barang_stock' => $stock), array('barang_id' => $id));
+        return $this->db->update('master_barang', array('barang_name' => $name, 'barang_stock' => $stock, 'barang_desc' => $desc), array('barang_id' => $id));
     }
 
     public function deleteProduct($id)

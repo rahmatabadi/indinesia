@@ -30,6 +30,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Product</th>
+                                        <th>DESC</th>
                                         <th>Stock</th>
                                         <th>Detail</th>
                                     </tr>
@@ -46,12 +47,16 @@
                                             <?= $m['barang_name'] ?>
                                         </td>
                                         <td>
+                                            <?= $m['barang_desc'] ?>
+                                        </td>
+                                        <td>
                                             <?= $m['barang_stock'] ?>
                                         </td>
                                         <td>
                                             <ul class="list-unstyled hstack gap-1 mb-0">
                                                 <li data-bs-toggle="modal" data-bs-target="#viewProductModal"
                                                     id="detailProduct" data-nameMV="<?= $m['barang_name'] ?>"
+                                                    data-descMV="<?= $m['barang_desc'] ?>"
                                                     data-stockMV="<?= $m['barang_stock'] ?>">
                                                     <a class="btn btn-sm btn-soft-primary"><i
                                                             class="mdi mdi-eye-outline"></i></a>
@@ -59,6 +64,7 @@
                                                 <li data-bs-toggle="modal" data-bs-target="#updateProductModal"
                                                     id="updateProduct" data-idMU="<?= $m['barang_id'] ?>"
                                                     data-nameMU="<?= $m['barang_name'] ?>"
+                                                    data-descMU="<?= $m['barang_desc'] ?>"
                                                     data-stockMU="<?= $m['barang_stock'] ?>">
                                                     <a class="btn btn-sm btn-soft-info"><i
                                                             class="mdi mdi-pencil-outline"></i></a>
@@ -96,6 +102,11 @@
                                     <label class="form-label">Product Name</label>
                                     <input type="text" class="form-control" id="nameM" required
                                         placeholder="Type Product Name" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Product Desc</label>
+                                    <input type="text" class="form-control" id="descM" required
+                                        placeholder="Type Product Desc" />
                                 </div>
 
                                 <div class="mb-3">
@@ -135,6 +146,13 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
+                                    <label class="form-label">Product Desc</label>
+                                    <div>
+                                        <input type="text" class="form-control" id="descMU" required
+                                            placeholder="Type product name" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">Product Stock </label>
                                     <input type="number" class="form-control" id="stockMU" required
                                         placeholder="Type stock" />
@@ -163,6 +181,8 @@
                                 <div class="mb-3">
                                     <label class="form-label">Product Name</label>
                                     <input type="text" class="form-control" id="nameMV" disabled />
+                                    <label class="form-label">Product Desc</label>
+                                    <input type="text" class="form-control" id="descMV" disabled />
                                     <label class="form-label">Product Stock</label>
                                     <input type="text" class="form-control" id="stockMV" disabled />
                                 </div>
@@ -211,6 +231,7 @@ $(document).ready(function($) {
     $(document).on('click', '#process', function() {
         var name = $("#nameM").val();
         var stock = $("#stockM").val();
+        var desc = $("#descM").val();
 
         if (name != null && name !== "") {
             if (stock != null && stock !== "") {
@@ -221,6 +242,7 @@ $(document).ready(function($) {
                     data: {
                         "name": name,
                         "stock": stock,
+                        "desc": desc,
                         "_token": "{{ csrf_token() }}"
                     },
 
@@ -245,26 +267,30 @@ $(document).ready(function($) {
     $(document).on('click', '#detailProduct', function() {
         name = $(this).attr('data-nameMV');
         stock = $(this).attr('data-stockMV');
+        desc = $(this).attr('data-descMV');
 
         $('#nameMV').val(name);
         $('#stockMV').val(stock);
+        $('#descMV').val(desc);
     });
 
     $(document).on('click', '#updateProduct', function() {
         id = $(this).attr('data-idMU');
         name = $(this).attr('data-nameMU');
         stock = $(this).attr('data-stockMU');
+        desc = $(this).attr('data-descMU');
 
         $('#idMU').val(id);
         $('#nameMU').val(name);
         $('#stockMU').val(stock);
+        $('#descMU').val(desc);
     });
 
     $(document).on('click', '#updateProcess', function() {
         var id = $('#idMU').val();
         var name = $("#nameMU").val();
         var stock = $("#stockMU").val();
-
+        var desc = $("#descMU").val();
 
         if (name != null && name !== "") {
             if (stock != null && stock !== "") {
@@ -276,6 +302,7 @@ $(document).ready(function($) {
                         "id": id,
                         "name": name,
                         "stock": stock,
+                        "desc": desc,
                         "_token": "{{ csrf_token() }}"
                     },
 
