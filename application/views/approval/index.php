@@ -93,8 +93,13 @@
                                                 data-idC="<?= $m['id'] ?>">Asign
                                                 To</button>
                                             <?php elseif ($m['status'] == 2): ?>
-                                            <button type="button" id="done" data-idC="<?= $m['id'] ?>"
-                                                class="btn btn-primary btn-sm waves-effect waves-light">Done</button>
+                                            <!-- <button type="button" id="done" data-idC="<?= $m['id'] ?>"
+                                                class="btn btn-primary btn-sm waves-effect waves-light">Done</button> -->
+                                            <button type="button" id="assignDone"
+                                                class="btn btn-primary btn-sm waves-effect waves-light"
+                                                data-bs-toggle="modal" data-bs-target="#doneModal"
+                                                data-idC="<?= $m['id'] ?>">Done
+                                            </button>
                                             <?php endif; ?>
 
                                         </td>
@@ -145,6 +150,30 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" id="process">Assign</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="doneModal" tabindex="-1" aria-labelledby="doneModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="doneModalLabel">Done Complaint</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form><input type="hidden" class="form-control" id="idDM">
+                                <div class="mb-3">
+                                    <label class="form-label">Description </label>
+                                    <input type="text" class="form-control" id="descDM" required
+                                        placeholder="Type description" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="processDone">Done</button>
                         </div>
                     </div>
                 </div>
@@ -265,6 +294,41 @@ $(document).ready(function($) {
                     "employee_id": employee_id,
                     "paid": paid,
                     "category": category,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+        } else {
+            alert('Please fill it in first');
+        }
+    });
+
+    $(document).on('click', '#assignDone', function() {
+        id = $(this).attr('data-idC');
+
+        $('#idDM').val(id);
+    });
+    $(document).on('click', '#processDone', function() {
+        id = $("#idDM").val();
+        desc = $("#descDM").val();
+
+        if (id != null && id !== "" &&
+            desc != null && desc !== "") {
+            $.ajax({
+                url: "approval/updateProcessDone",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "id": id,
+                    "desc": desc,
                     "_token": "{{ csrf_token() }}"
                 },
 

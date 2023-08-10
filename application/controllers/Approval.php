@@ -86,4 +86,18 @@ class Approval extends CI_Controller
         }
     }
 
+    public function updateProcessDone()
+    {
+        $roleId = $this->session->userdata('roleId');
+        $id = $this->input->post('id');
+        $desc = $this->input->post('desc');
+
+        $updateDone = $this->approvalModels->updateDoneNew($id, $desc, $roleId);
+
+        if ($updateDone) {
+            echo json_encode(array("success" => "Success"));
+        } else {
+            echo json_encode(array("error" => "Empty Category Complaint"));
+        }
+    }
 }

@@ -53,4 +53,19 @@ class Approval_models extends CI_Model
     {
         return $this->db->get_where('master_category_complaint', array('departement_id' => $roleId, 'site_id' => $siteId))->result_array();
     }
+
+    public function updateDoneNew($id, $desc, $roleId)
+    {
+        $this->db->update('complaint', array('status' => '3', 'worker_desc' => $desc), array('id' => $id));
+
+        $dataLog = array(
+            'complaint_id' => $id,
+            'assign' => $roleId,
+            'worker' => 'Admin',
+            'status' => '3',
+            'time' => date('d-m-Y H:i:s')
+        );
+
+        return $this->db->insert('log_history', $dataLog);
+    }
 }
