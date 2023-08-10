@@ -17,7 +17,7 @@ class Approval_models extends CI_Model
 
     public function updateWorker($id, $employee_id, $paid, $category, $roleId)
     {
-        $this->db->update('complaint', array('worker' => $employee_id, 'status' => '2', 'paid' => $paid, 'category_id' => $category), array('id' => $id));
+        $this->db->update('complaint', array('worker' => $employee_id, 'status' => '2', 'paid' => $paid, 'complaint_category_id' => $category), array('id' => $id));
 
         $dataLog = array(
             'complaint_id' => $id,

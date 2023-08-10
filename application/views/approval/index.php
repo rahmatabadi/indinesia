@@ -44,62 +44,62 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                        <tr>
-                                            <td>
-                                                <?= $i ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['tower_name'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['floor_number'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['unit_number'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['phone'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['name'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['message'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['date'] ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($m['status'] == 1): ?>
-                                                    <span class="badge bg-info">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
-                                                <?php elseif ($m['status'] == 2): ?>
-                                                    <span class="badge bg-warning">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
-                                                <?php elseif ($m['status'] == 3): ?>
-                                                    <span class="badge bg-success">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
-                                                <?php endif; ?>
-                                            </td>
+                                    <tr>
+                                        <td>
+                                            <?= $i ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['tower_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['floor_number'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['unit_number'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['phone'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['message'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['date'] ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($m['status'] == 1): ?>
+                                            <span class="badge bg-info">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php elseif ($m['status'] == 2): ?>
+                                            <span class="badge bg-warning">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php elseif ($m['status'] == 3): ?>
+                                            <span class="badge bg-success">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </td>
 
-                                            <td>
-                                                <?php if ($m['status'] == 1): ?>
-                                                    <button type="button" id="assign"
-                                                        class="btn btn-primary btn-sm waves-effect waves-light"
-                                                        data-bs-toggle="modal" data-bs-target="#assignModal"
-                                                        data-idC="<?= $m['id'] ?>">Asign
-                                                        To</button>
-                                                <?php elseif ($m['status'] == 2): ?>
-                                                    <button type="button" id="done" data-idC="<?= $m['id'] ?>"
-                                                        class="btn btn-primary btn-sm waves-effect waves-light">Done</button>
-                                                <?php endif; ?>
+                                        <td>
+                                            <?php if ($m['status'] == 1): ?>
+                                            <button type="button" id="assign"
+                                                class="btn btn-primary btn-sm waves-effect waves-light"
+                                                data-bs-toggle="modal" data-bs-target="#assignModal"
+                                                data-idC="<?= $m['id'] ?>">Asign
+                                                To</button>
+                                            <?php elseif ($m['status'] == 2): ?>
+                                            <button type="button" id="done" data-idC="<?= $m['id'] ?>"
+                                                class="btn btn-primary btn-sm waves-effect waves-light">Done</button>
+                                            <?php endif; ?>
 
-                                            </td>
-                                        </tr>
-                                        <?php $i++; ?>
+                                        </td>
+                                    </tr>
+                                    <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -161,126 +161,125 @@
 <!-- end main content-->
 
 <script>
-    $(document).ready(function ($) {
-        //get Employee
-        $.ajax({
-            url: "approval/getEmployee",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
+$(document).ready(function($) {
+    //get Employee
+    $.ajax({
+        url: "approval/getEmployee",
+        type: 'post',
+        dataType: 'json',
+        data: {
+            "_token": "{{ csrf_token() }}"
+        },
 
-            success: function (result) {
-                console.log(result);
-                if (result.success) {
-                    $('#employeeSelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Employee</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#employeeSelectM').append('<option value="' + result.data[i]
-                            .employee_id +
-                            '">' +
-                            result.data[i].employee_name + '</option>');
-                    }
-                } else {
-                    alert(result.error);
-                    //location.reload();
+        success: function(result) {
+            console.log(result);
+            if (result.success) {
+                $('#employeeSelectM').append(
+                    '<option value="99" selected="true" disabled="disabled">Choose Employee</option>'
+                );
+                for (var i = 0; i <= result.data.length; i++) {
+                    $('#employeeSelectM').append('<option value="' + result.data[i]
+                        .employee_id +
+                        '">' +
+                        result.data[i].employee_name + '</option>');
                 }
-            }
-        });
-
-        //get Category
-        $.ajax({
-            url: "approval/getCategoryComplaint",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function (result) {
-                console.log(result);
-                if (result.success) {
-                    $('#categorySelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Category</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#categorySelectM').append('<option value="' + result.data[i]
-                            .category_complaint_id +
-                            '">' +
-                            result.data[i].category_complaint_name + '</option>');
-                    }
-                } else {
-                    alert(result.error);
-                    //location.reload();
-                }
-            }
-        });
-
-        $(document).on('click', '#assign', function () {
-            id = $(this).attr('data-idC');
-
-            $('#idU').val(id);
-        });
-
-        $(document).on('click', '#done', function () {
-            id = $(this).attr('data-idC');
-            console.log(id);
-            if (confirm("Has this complaint been resolved?")) {
-                $.ajax({
-                    url: "approval/updateDone",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        "id": id,
-                        "_token": "{{ csrf_token() }}"
-                    },
-
-                    success: function (result) {
-                        console.log(result);
-                        if (result.success) {
-                            location.reload();
-                        } else {
-                            alert(result.error);
-                        }
-                    }
-                });
-            }
-        });
-        $(document).on('click', '#process', function () {
-            id = $("#idU").val();
-            employee_id = $("#employeeSelectM").val();
-            paid = $("#paidSelectM").val();
-            category = $("#categorySelectM").val();
-            console.log($("#paidSelectM").val())
-
-            if (employee_id != null && employee_id !== "" &&
-                paid != null && paid !== "") {
-                $.ajax({
-                    url: "approval/updateWorker",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        "id": id,
-                        "employee_id": employee_id,
-                        "paid": paid,
-                        "category": category,
-                        "_token": "{{ csrf_token() }}"
-                    },
-
-                    success: function (result) {
-                        console.log(result);
-                        if (result.success) {
-                            location.reload();
-                        } else {
-                            alert(result.error);
-                        }
-                    }
-                });
             } else {
-                alert('Please fill it in first');
+                alert(result.error);
+                //location.reload();
             }
-        });
+        }
     });
+
+    //get Category
+    $.ajax({
+        url: "approval/getCategoryComplaint",
+        type: 'post',
+        dataType: 'json',
+        data: {
+            "_token": "{{ csrf_token() }}"
+        },
+
+        success: function(result) {
+            console.log(result);
+            if (result.success) {
+                $('#categorySelectM').append(
+                    '<option value="99" selected="true" disabled="disabled">Choose Category</option>'
+                );
+                for (var i = 0; i <= result.data.length; i++) {
+                    $('#categorySelectM').append('<option value="' + result.data[i]
+                        .category_complaint_id +
+                        '">' +
+                        result.data[i].category_complaint_name + '</option>');
+                }
+            } else {
+                alert(result.error);
+                //location.reload();
+            }
+        }
+    });
+
+    $(document).on('click', '#assign', function() {
+        id = $(this).attr('data-idC');
+
+        $('#idU').val(id);
+    });
+
+    $(document).on('click', '#done', function() {
+        id = $(this).attr('data-idC');
+        console.log(id);
+        if (confirm("Has this complaint been resolved?")) {
+            $.ajax({
+                url: "approval/updateDone",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "id": id,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+        }
+    });
+    $(document).on('click', '#process', function() {
+        id = $("#idU").val();
+        employee_id = $("#employeeSelectM").val();
+        paid = $("#paidSelectM").val();
+        category = $("#categorySelectM").val();
+
+        if (employee_id != null && employee_id !== "" &&
+            paid != null && paid !== "") {
+            $.ajax({
+                url: "approval/updateWorker",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "id": id,
+                    "employee_id": employee_id,
+                    "paid": paid,
+                    "category": category,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+        } else {
+            alert('Please fill it in first');
+        }
+    });
+});
 </script>
