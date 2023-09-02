@@ -27,6 +27,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Id Complaint</th>
                                         <th>Tower</th>
                                         <th>Floor</th>
                                         <th>Unit</th>
@@ -46,6 +47,9 @@
                                     <tr>
                                         <td>
                                             <?= $i ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['id_c'] ?>
                                         </td>
                                         <td>
                                             <?= $m['tower_name'] ?>

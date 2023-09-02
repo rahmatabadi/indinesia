@@ -4,7 +4,7 @@ class Complaint_models extends CI_Model
 {
     public function getDataComplaint()
     {
-        return $this->db->select('*')
+        return $this->db->select('a.id as id_c, a.*, b.*, c.*, d.*, e.*, f.*')
             ->from('complaint a')
             ->join('status_complaint b', 'a.status = b.id')
             ->join('departement c', 'a.assign = c.id')
@@ -29,6 +29,7 @@ class Complaint_models extends CI_Model
     {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
+            'id' => 'CR/' . date('Ymd') . '/' . $siteId . '/' . date('His'),
             'name' => $name,
             'phone' => $phone,
             'tower_id' => $tower,
