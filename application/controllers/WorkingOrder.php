@@ -32,24 +32,32 @@ class WorkingOrder extends CI_Controller
 
         public function createWO()
         {
-                $roleId = $this->session->userdata('roleId');
-                //$this->session->siteId
                 $data['title'] = 'Working Order';
                 $data['fullname'] = $this->session->fullname;
-                $data['menu'] = $this->menuModels->getMenu($roleId);
-                $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
+                $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
+                $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
-                // var_dump($data['complaint']);
-                // exit();
-                // $data['data'] = $this->complaintModels->getDataComplaint();
-                // $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId);
-                // $data['tower'] = $this->complaintModels->getTower($this->session->siteId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
                 $this->load->view('templates/sidebar', $data);
                 $this->load->view('templates/footer', $data);
                 $this->load->view('workingOrder/createWO', $data);
+        }
+
+        public function createWOInternal()
+        {
+                $data['title'] = 'Working Order';
+                $data['fullname'] = $this->session->fullname;
+                $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
+                $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
+                $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('templates/topbar', $data);
+                $this->load->view('templates/sidebar', $data);
+                $this->load->view('templates/footer', $data);
+                $this->load->view('workingOrder/createWOInternal', $data);
         }
 
         public function insertWO()

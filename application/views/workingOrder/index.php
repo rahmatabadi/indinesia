@@ -11,9 +11,12 @@
 
                         <div class="page-title-right">
                             <?php if ($access_create): ?>
+                                <a href="<?= base_url('workingOrder/createWOInternal') ?>"
+                                    class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
+                                    Create Work Order Internal</a>
                                 <a href="<?= base_url('workingOrder/createWO') ?>"
                                     class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
-                                    Create Working Order</a>
+                                    Create Work Order CR</a>
                             <?php endif; ?>
                         </div>
                     </div>
