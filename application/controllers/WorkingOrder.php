@@ -22,6 +22,7 @@ class WorkingOrder extends CI_Controller
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
                 $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId);
                 $data['access_create'] = $this->WOModels->cekAccessCreate($this->session->roleId);
+                $data['access_action'] = $this->WOModels->cekAccessAction($this->session->roleId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
@@ -52,6 +53,8 @@ class WorkingOrder extends CI_Controller
                 $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
+                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId);
+                $data['tower'] = $this->complaintModels->getTower($this->session->siteId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
@@ -102,5 +105,69 @@ class WorkingOrder extends CI_Controller
                         echo json_encode(array("error" => "Data Tidak Ditemukan"));
                 }
 
+        }
+
+        public function createWOIn()
+        {
+                $name = $this->input->post('name');
+                $phone = $this->input->post('phone');
+                $tower = $this->input->post('tower');
+                $floor = $this->input->post('floor');
+                $unit = $this->input->post('unit');
+                $message = $this->input->post('message');
+                $departement = $this->input->post('departement');
+                $startDate = $this->input->post('startDate');
+                $startTime = $this->input->post('startTime');
+
+                $create = $this->WOModels->createWOIn($name, $phone, $tower, $floor, $unit, $message, $departement, $startDate, $startTime, $this->session->siteId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function getEmployee()
+        {
+                $roleId = $this->session->userdata('roleId');
+
+                $getEmployee = $this->WOModels->getEmployee($roleId, $this->session->siteId);
+
+                if ($getEmployee) {
+                        echo json_encode(array("success" => "Success", "data" => $getEmployee));
+                } else {
+                        echo json_encode(array("error" => "Empty Employee"));
+                }
+        }
+
+        public function getCategoryComplaint()
+        {
+                $roleId = $this->session->userdata('roleId');
+
+                $getEmployee = $this->WOModels->getCategoryComplaint($roleId, $this->session->siteId);
+
+                if ($getEmployee) {
+                        echo json_encode(array("success" => "Success", "data" => $getEmployee));
+                } else {
+                        echo json_encode(array("error" => "Empty Category Complaint"));
+                }
+        }
+
+        public function updateWorker()
+        {
+                $roleId = $this->session->userdata('roleId');
+                $id = $this->input->post('id');
+                $employee_id = $this->input->post('employee_id');
+                $category = $this->input->post('category');
+
+                $create = $this->WOModels->updateWorker($id, $employee_id, $category, $roleId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
         }
 }
