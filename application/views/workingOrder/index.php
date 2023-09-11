@@ -11,12 +11,12 @@
 
                         <div class="page-title-right">
                             <?php if ($access_create): ?>
-                                <a href="<?= base_url('workingOrder/createWOInternal') ?>"
-                                    class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
-                                    Create Work Order Internal</a>
-                                <a href="<?= base_url('workingOrder/createWO') ?>"
-                                    class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
-                                    Create Work Order CR</a>
+                            <a href="<?= base_url('workingOrder/createWOInternal') ?>"
+                                class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
+                                Create Work Order Internal</a>
+                            <a href="<?= base_url('workingOrder/createWO') ?>"
+                                class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
+                                Create Work Order CR</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -44,67 +44,67 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                        <tr>
-                                            <td>
-                                                <?= $i ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['wo_id'] ?>
-                                            </td>
-                                            <td>
-                                                <?= $m['id'] ?>
-                                            </td>
-                                            <td>
+                                    <tr>
+                                        <td>
+                                            <?= $i ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['wo_id'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $m['id'] ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($m['status'] == 1): ?>
+                                            <span class="badge bg-info">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php elseif ($m['status'] == 2): ?>
+                                            <span class="badge bg-warning">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php elseif ($m['status'] == 3): ?>
+                                            <span class="badge bg-success">
+                                                <?= $m['desc'] ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <ul class="list-unstyled hstack gap-1 mb-0">
+                                                <li data-bs-toggle="modal" data-bs-target="#viewCategoryModal"
+                                                    id="detailCategory"
+                                                    data-nameMV="<?= $m['category_complaint_name'] ?>"
+                                                    data-descMV="<?= $m['category_complaint_desc'] ?>"
+                                                    data-tnameMV="<?= $m['departement_name'] ?>">
+                                                    <a class="btn btn-sm btn-soft-primary"><i
+                                                            class="mdi mdi-eye-outline"></i></a>
+                                                </li>
+                                                <?php if ($access_action): ?>
                                                 <?php if ($m['status'] == 1): ?>
-                                                    <span class="badge bg-info">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
+                                                <li data-bs-toggle="modal" data-bs-target="#actionWOModal" id="actionWO"
+                                                    data-idWOM="<?= $m['wo_id'] ?>" data-idCRM="<?= $m['id'] ?>">
+                                                    <a class=" btn btn-sm btn-soft-info"><i
+                                                            class="mdi mdi-pencil-outline"></i></a>
+                                                </li>
                                                 <?php elseif ($m['status'] == 2): ?>
-                                                    <span class="badge bg-warning">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
-                                                <?php elseif ($m['status'] == 3): ?>
-                                                    <span class="badge bg-success">
-                                                        <?= $m['desc'] ?>
-                                                    </span>
+                                                <li data-bs-toggle="modal" data-bs-target="#actionWODoneModal"
+                                                    id="actionWODone" data-idWOM="<?= $m['wo_id'] ?>"
+                                                    data-idCRM="<?= $m['id'] ?>">
+                                                    <a class=" btn btn-sm btn-soft-info"><i
+                                                            class="mdi mdi-pencil-outline"></i></a>
+                                                </li>
                                                 <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <ul class="list-unstyled hstack gap-1 mb-0">
-                                                    <li data-bs-toggle="modal" data-bs-target="#viewCategoryModal"
-                                                        id="detailCategory"
-                                                        data-nameMV="<?= $m['category_complaint_name'] ?>"
-                                                        data-descMV="<?= $m['category_complaint_desc'] ?>"
-                                                        data-tnameMV="<?= $m['departement_name'] ?>">
-                                                        <a class="btn btn-sm btn-soft-primary"><i
-                                                                class="mdi mdi-eye-outline"></i></a>
-                                                    </li>
-                                                    <?php if ($access_action): ?>
-                                                        <?php if ($m['status'] == 1): ?>
-                                                            <li data-bs-toggle="modal" data-bs-target="#actionWOModal" id="actionWO"
-                                                                data-idWOM="<?= $m['wo_id'] ?>" data-idCRM="<?= $m['id'] ?>">
-                                                                <a class=" btn btn-sm btn-soft-info"><i
-                                                                        class="mdi mdi-pencil-outline"></i></a>
-                                                            </li>
-                                                        <?php elseif ($m['status'] == 2): ?>
-                                                            <li data-bs-toggle="modal" data-bs-target="#actionWODoneModal"
-                                                                id="actionWODone" data-idWOM="<?= $m['wo_id'] ?>"
-                                                                data-idCRM="<?= $m['id'] ?>">
-                                                                <a class=" btn btn-sm btn-soft-info"><i
-                                                                        class="mdi mdi-pencil-outline"></i></a>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                    <?php endif; ?>
+                                                <?php endif; ?>
 
-                                                    <!-- <li data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                <!-- <li data-bs-toggle="modal" data-bs-target="#deleteModal"
                                                         id="deleteEmployee" data-idMD="<?= $m['category_complaint_id'] ?>">
                                                         <a class="btn btn-sm btn-soft-danger"><i
                                                                 class="mdi mdi-delete-outline"></i></a>
                                                     </li> -->
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <?php $i++; ?>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -162,32 +162,32 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" class="form-control" id="idDoneU" name="idDoneU">
                             <form>
-                                <div class="mb-3">
-                                    <label class="form-label">Category </label>
-                                    <select class="form-select" id="categorySelectM">
-                                    </select>
+                                <div class="row mb-4">
+                                    <label class="col-sm-3 col-form-label">Finish Date</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group" id="datepicker2">
+                                            <input type="text" class="form-control" placeholder="Finish Date"
+                                                data-date-format="dd-mm-yyyy" data-date-container='#datepicker2'
+                                                data-provide="datepicker" data-date-autoclose="true" id="finishDate">
+
+                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Name </label>
-                                    <input type="hidden" class="form-control" id="idU" name="idU">
-                                    <select class="form-select" id="employeeSelectM">
-                                    </select>
+
+                                <div class="row mb-4">
+                                    <label for="startTime" class="col-sm-3 col-form-label">Finish Time</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="finishTime" placeholder="09:00">
+                                    </div>
                                 </div>
-                                <!-- <div class="mb-3">
-                                    <label class="form-label">Is it Paid? </label>
-                                    <select class="form-select" id="paidSelectM">
-                                        <option value="99" selected="true" disabled="disabled">Choose Paid or Not
-                                        </option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div> -->
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="process">Assign</button>
+                            <button type="button" class="btn btn-primary" id="finishClick">Finish </button>
                         </div>
                     </div>
                 </div>
@@ -202,7 +202,13 @@
 <!-- end main content-->
 
 <script>
-    $(document).ready(function ($) {
+$(document).ready(function($) {
+
+    $(document).on('click', '#actionWO', function() {
+        id = $(this).attr('data-idWOM');
+
+        $('#idU').val(id);
+
         $.ajax({
             url: "WorkingOrder/getEmployee",
             type: 'post',
@@ -211,7 +217,7 @@
                 "_token": "{{ csrf_token() }}"
             },
 
-            success: function (result) {
+            success: function(result) {
                 console.log(result);
                 if (result.success) {
                     $('#employeeSelectM').append(
@@ -239,7 +245,7 @@
                 "_token": "{{ csrf_token() }}"
             },
 
-            success: function (result) {
+            success: function(result) {
                 console.log(result);
                 if (result.success) {
                     $('#categorySelectM').append(
@@ -257,45 +263,81 @@
                 }
             }
         });
-
-        $(document).on('click', '#actionWO', function () {
-            id = $(this).attr('data-idWOM');
-
-            $('#idU').val(id);
-        });
-
-        $(document).on('click', '#process', function () {
-            id = $("#idU").val();
-            employee_id = $("#employeeSelectM").val();
-            category = $("#categorySelectM").val();
-
-            if (employee_id != null && employee_id !== "") {
-                $.ajax({
-                    url: "WorkingOrder/updateWorker",
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        "id": id,
-                        "employee_id": employee_id,
-                        "category": category,
-                        "_token": "{{ csrf_token() }}"
-                    },
-
-                    success: function (result) {
-                        console.log(result);
-                        if (result.success) {
-                            location.reload();
-                        } else {
-                            alert(result.error);
-                        }
-                    }
-                });
-            } else {
-                alert('Please fill it in first');
-            }
-        });
-
-
-
     });
+
+    $(document).on('click', '#actionWODone', function() {
+        id = $(this).attr('data-idWOM');
+
+        $('#idDoneU').val(id);
+    });
+
+    $(document).on('click', '#process', function() {
+        id = $("#idDoneU").val();
+        employee_id = $("#employeeSelectM").val();
+        category = $("#categorySelectM").val();
+
+        if (employee_id != null && employee_id !== "") {
+            $.ajax({
+                url: "WorkingOrder/updateWorker",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "id": id,
+                    "employee_id": employee_id,
+                    "category": category,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+        } else {
+            alert('Please fill it in first');
+        }
+    });
+
+    $(document).on('click', '#finishClick', function() {
+        id = $("#idDoneU").val();
+        finishDate = $("#finishDate").val();
+        finsihTime = $("#finishTime").val();
+
+        if (id != null && id !== "" && finishDate != null && finishDate !== "" && finsihTime != null &&
+            finsihTime !== "") {
+            console.log(id);
+            console.log(finishDate);
+            console.log(finsihTime);
+            $.ajax({
+                url: "WorkingOrder/updateWorkerDone",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "id": id,
+                    "finish_time": 'aaa',
+                    "finish_date": 'aaa',
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.error);
+                    }
+                }
+            });
+        } else {
+            alert('Please fill it in first');
+        }
+    });
+
+
+
+});
 </script>

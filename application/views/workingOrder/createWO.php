@@ -23,7 +23,7 @@
                             <select class="form-select" id="CRSelect">
                                 <option value="">Select</option>
                                 <?php foreach ($complaint as $d): ?>
-                                <option value="<?= $d['id'] ?>"><?= $d['id'] ?></option>
+                                    <option value="<?= $d['id'] ?>"><?= $d['id'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -71,46 +71,47 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    $(document).on('click', '#createWO', function() {
-        console.log('clicked');
-        var startDate = $("#startDate").val();
-        var startTime = $("#startTime").val();
-        var CRSelect = $("#CRSelect").val();
+    $(document).ready(function ($) {
+        $(document).on('click', '#createWO', function () {
+            console.log('clicked');
+            var startDate = $("#startDate").val();
+            var startTime = $("#startTime").val();
+            var CRSelect = $("#CRSelect").val();
 
-        if (CRSelect != null && CRSelect !== "") {
-            if (startDate != null && startDate !== "") {
-                if (startTime != null && startTime !== "") {
-                    $.ajax({
-                        url: "insertWO",
-                        type: 'post',
-                        dataType: 'json',
-                        data: {
-                            "CRSelect": CRSelect,
-                            "startDate": startDate,
-                            "startTime": startTime,
-                            "_token": "{{ csrf_token() }}"
-                        },
+            if (CRSelect != null && CRSelect !== "") {
+                if (startDate != null && startDate !== "") {
+                    if (startTime != null && startTime !== "") {
 
-                        success: function(result) {
-                            console.log(result);
-                            if (result.success) {
-                                //location.reload();
-                            } else {
-                                alert(result.error);
-                                //location.reload();
+                        $.ajax({
+                            url: "insertWO",
+                            type: 'post',
+                            dataType: 'json',
+                            data: {
+                                "CRSelect": CRSelect,
+                                "startDate": startDate,
+                                "startTime": startTime,
+                                "_token": "{{ csrf_token() }}"
+                            },
+
+                            success: function (result) {
+                                console.log(result);
+                                if (result.success) {
+                                    location.reload();
+                                } else {
+                                    alert(result.error);
+                                    //location.reload();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        alert('Your start time is empty, please fill it in first');
+                    }
                 } else {
-                    alert('Your start time is empty, please fill it in first');
+                    alert('Your start date is empty, please fill it in first');
                 }
             } else {
-                alert('Your start date is empty, please fill it in first');
+                alert('Please Select Complaint Request');
             }
-        } else {
-            alert('Please Select Complaint Request');
-        }
+        });
     });
-});
 </script>

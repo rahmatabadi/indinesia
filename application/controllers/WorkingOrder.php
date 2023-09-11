@@ -20,7 +20,7 @@ class WorkingOrder extends CI_Controller
                 $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
-                $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId);
+                $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId, $this->session->roleId);
                 $data['access_create'] = $this->WOModels->cekAccessCreate($this->session->roleId);
                 $data['access_action'] = $this->WOModels->cekAccessAction($this->session->roleId);
 
@@ -53,7 +53,7 @@ class WorkingOrder extends CI_Controller
                 $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
-                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId);
+                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId, $this->session->roleId);
                 $data['tower'] = $this->complaintModels->getTower($this->session->siteId);
 
                 $this->load->view('templates/header', $data);
@@ -163,6 +163,22 @@ class WorkingOrder extends CI_Controller
                 $category = $this->input->post('category');
 
                 $create = $this->WOModels->updateWorker($id, $employee_id, $category, $roleId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+        }
+
+        public function updateWorkerDone()
+        {
+
+                $id = $this->input->post('id');
+                $finishDate = $this->input->post('finsih_date');
+                $finishTime = $this->input->post('finsih_time');
+
+                $create = $this->WOModels->updateWorkerDone($id, $finishDate, $finishTime);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));

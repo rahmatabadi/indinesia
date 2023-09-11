@@ -21,7 +21,7 @@ class Complaint extends CI_Controller
                 $data['menu'] = $this->menuModels->getMenu($roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($roleId);
                 $data['data'] = $this->complaintModels->getDataComplaint();
-                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId);
+                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId, $roleId);
                 $data['tower'] = $this->complaintModels->getTower($this->session->siteId);
 
                 $this->load->view('templates/header', $data);

@@ -17,10 +17,13 @@ class Working_Order_models extends CI_Model
         $this->db->trans_begin();
         $wo_id = 'W0/' . date('Ymd') . '/' . $siteId . '/' . date('His');
 
+        $getDepartement = $this->db->get_where('complaint', array('id' => $CRSelect))->row_array();
+
         $data = array(
             'id' => $wo_id,
             'start_date' => $startDate,
             'start_time' => $startTime,
+            'departement_id' => $getDepartement['id'],
             'status' => '1',
             'created_date' => date('d-m-Y H:i:s')
         );
@@ -38,7 +41,7 @@ class Working_Order_models extends CI_Model
         }
     }
 
-    public function getWorkOrder($siteId)
+    public function getWorkOrder($siteId, $roleId)
     {
         return $this->db->select('a.wo_id,a.id,c.desc,b.status')
             ->from('complaint a')
@@ -119,6 +122,7 @@ class Working_Order_models extends CI_Model
             'id' => $wo_id,
             'start_date' => $startDate,
             'start_time' => $startTime,
+            'departement_id' => $departement,
             'status' => '1',
             'created_date' => date('d-m-Y H:i:s')
         );
@@ -148,6 +152,7 @@ class Working_Order_models extends CI_Model
     public function updateWorker($id, $employee_id, $category, $roleId)
     {
         $this->db->update('work_order', array('employee_id' => $employee_id, 'status' => '2', 'complaint_category_id' => $category), array('id' => $id));
+        $this->db->update('complaint', array('status' => '3'), array('wo_id' => $id));
 
         $dataLog = array(
             'complaint_id' => $id,
@@ -158,6 +163,22 @@ class Working_Order_models extends CI_Model
         );
 
         return $this->db->insert('log_history', $dataLog);
+    }
+
+    public function updateWorkerDone($id, $finishDate, $finishTime)
+    {
+        $this->db->trans_begin();
+
+        $this->db->update('work_order', array('end_date' => $finishDate, 'end_time' => $finishTime, 'status' => '3'), array('id' => $id));
+        $this->db->update('complaint', array('status' => '4'), array('wo_id' => $id));
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
     }
 
 }
