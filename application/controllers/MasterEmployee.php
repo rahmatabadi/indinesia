@@ -36,9 +36,11 @@ class MasterEmployee extends CI_Controller
                 $name = $this->input->post('name');
                 $phone = $this->input->post('phone');
                 $address = $this->input->post('address');
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
                 $departement = $this->input->post('departement');
 
-                $create = $this->masterEmployeeModels->createEmployee($name, $phone, $address, $departement, $this->session->siteId);
+                $create = $this->masterEmployeeModels->createEmployee($name, $phone, $address, $departement, $username, $password, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));

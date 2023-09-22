@@ -20,7 +20,7 @@ class WorkingOrder extends CI_Controller
                 $data['menu'] = $this->menuModels->getMenu($this->session->roleId);
                 $data['menuDetail'] = $this->menuModels->getMenuDetail($this->session->roleId);
                 $data['complaint'] = $this->WOModels->getDataComplaint($this->session->siteId);
-                $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId, $this->session->roleId);
+                $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId, $this->session->roleId, $this->session->employeeId);
                 $data['access_create'] = $this->WOModels->cekAccessCreate($this->session->roleId);
                 $data['access_action'] = $this->WOModels->cekAccessAction($this->session->roleId);
 
@@ -66,10 +66,8 @@ class WorkingOrder extends CI_Controller
         public function insertWO()
         {
                 $CRSelect = $this->input->post('CRSelect');
-                $startDate = $this->input->post('startDate');
-                $startTime = $this->input->post('startTime');
 
-                $create = $this->WOModels->createWO($CRSelect, $startDate, $startTime, $this->session->siteId);
+                $create = $this->WOModels->createWO($CRSelect, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
@@ -116,10 +114,8 @@ class WorkingOrder extends CI_Controller
                 $unit = $this->input->post('unit');
                 $message = $this->input->post('message');
                 $departement = $this->input->post('departement');
-                $startDate = $this->input->post('startDate');
-                $startTime = $this->input->post('startTime');
 
-                $create = $this->WOModels->createWOIn($name, $phone, $tower, $floor, $unit, $message, $departement, $startDate, $startTime, $this->session->siteId);
+                $create = $this->WOModels->createWOIn($name, $phone, $tower, $floor, $unit, $message, $departement, $this->session->siteId);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
@@ -185,5 +181,33 @@ class WorkingOrder extends CI_Controller
                 } else {
                         echo json_encode(array("error" => "Data Tidak Ditemukan"));
                 }
+        }
+
+        public function getDetailCR()
+        {
+                $cr = $this->input->post('cr');
+
+                $data = $this->WOModels->getDetailCR($cr);
+
+                if ($data) {
+                        echo json_encode(array("success" => "Success", "data" => $data));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function getDetailWO()
+        {
+                $id = $this->input->post('id');
+
+                $data = $this->WOModels->getDetailWO($id);
+
+                if ($data) {
+                        echo json_encode(array("success" => "Success", "data" => $data));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
         }
 }

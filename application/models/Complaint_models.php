@@ -28,8 +28,10 @@ class Complaint_models extends CI_Model
     public function createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $siteId)
     {
         date_default_timezone_set('Asia/Jakarta');
+        $this->db->trans_begin();
+        $idComplaint = 'CR/' . date('Ymd') . '/' . $siteId . '/' . date('His');
         $data = array(
-            'id' => 'CR/' . date('Ymd') . '/' . $siteId . '/' . date('His'),
+            'id' => $idComplaint,
             'name' => $name,
             'phone' => $phone,
             'tower_id' => $tower,
@@ -44,8 +46,6 @@ class Complaint_models extends CI_Model
 
         $this->db->insert('complaint', $data);
 
-        $idComplaint = $this->db->insert_id();
-
         $dataLog = array(
             'complaint_id' => $idComplaint,
             'assign' => $departement,
@@ -54,7 +54,16 @@ class Complaint_models extends CI_Model
             'time' => date('d-m-Y H:i:s')
         );
 
-        return $this->db->insert('log_history', $dataLog);
+        $this->db->insert('log_history', $dataLog);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
+
     }
 
     public function getFloor($towerId)

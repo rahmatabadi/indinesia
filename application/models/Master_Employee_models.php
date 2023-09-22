@@ -16,9 +16,10 @@ class Master_Employee_models extends CI_Model
             ->get()->result_array();
     }
 
-    public function createEmployee($name, $phone, $address, $departement, $siteId)
+    public function createEmployee($name, $phone, $address, $departement, $username, $password, $siteId)
     {
         date_default_timezone_set('Asia/Jakarta');
+        $this->db->trans_begin();
         $data = array(
             'employee_name' => $name,
             'employee_phone' => $phone,
@@ -28,7 +29,26 @@ class Master_Employee_models extends CI_Model
             'date' => date('d-m-Y H:i:s')
         );
 
-        return $this->db->insert('master_employee', $data);
+        $this->db->insert('master_employee', $data);
+
+        $dataUsername = array(
+            'username' => $username,
+            'password' => $password,
+            'role_id' => $departement,
+            'fullname' => $name,
+            'site_id' => $siteId,
+            'employee_id' => $this->db->insert_id()
+        );
+
+        $this->db->insert('users', $dataUsername);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
     }
 
     public function deleteEmployee($id)

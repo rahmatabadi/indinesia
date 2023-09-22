@@ -44,54 +44,54 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $i ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['id_c'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['tower_name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['floor_number'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['unit_number'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['phone'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['message'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['departement_name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['date'] ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($m['status'] == 1): ?>
-                                            <span class="badge bg-info">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 2): ?>
-                                            <span class="badge bg-warning">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 3): ?>
-                                            <span class="badge bg-success">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                    <?php $i++; ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['id_c'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['tower_name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['floor_number'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['unit_number'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['phone'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['message'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['departement_name'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['date'] ?>
+                                            </td>
+                                            <td>
+                                                <?php if ($m['status'] == 1): ?>
+                                                    <span class="badge bg-info">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 2): ?>
+                                                    <span class="badge bg-warning">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 3): ?>
+                                                    <span class="badge bg-success">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -131,7 +131,7 @@
                                     <select class="form-select" id="towerSelectM">
                                         <option value="">Select</option>
                                         <?php foreach ($tower as $d): ?>
-                                        <option value="<?= $d['tower_id'] ?>"><?= $d['tower_name'] ?></option>
+                                            <option value="<?= $d['tower_id'] ?>"><?= $d['tower_name'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -160,7 +160,7 @@
                                     <select class="form-select" id="departementSelectM">
                                         <option value="0">Select</option>
                                         <?php foreach ($departement as $d): ?>
-                                        <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
+                                            <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
 
@@ -186,137 +186,137 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    forFloor = document.getElementById("forFloorM");
-    forUnit = document.getElementById("forUnitM");
-    forFloor.setAttribute("hidden", "hidden");
-    forUnit.setAttribute("hidden", "hidden");
-    //forCash = document.getElementById("forCash");
-    // forCash.setAttribute("hidden", "hidden");
-    // forCash.removeAttribute("hidden");
-    $(document).on('click', '#process', function() {
-        console.log('clicked');
-        var name = $("#nameM").val();
-        var phone = $("#phoneM").val();
-        var tower = $("#towerSelectM").val();
-        var floor = $("#floorSelectM").val();
-        var unit = $("#unitSelectM").val();
-        var message = $("#messageM").val();
-        var departement = $("#departementSelectM").val();
+    $(document).ready(function ($) {
+        forFloor = document.getElementById("forFloorM");
+        forUnit = document.getElementById("forUnitM");
+        forFloor.setAttribute("hidden", "hidden");
+        forUnit.setAttribute("hidden", "hidden");
+        //forCash = document.getElementById("forCash");
+        // forCash.setAttribute("hidden", "hidden");
+        // forCash.removeAttribute("hidden");
+        $(document).on('click', '#process', function () {
+            console.log('clicked');
+            var name = $("#nameM").val();
+            var phone = $("#phoneM").val();
+            var tower = $("#towerSelectM").val();
+            var floor = $("#floorSelectM").val();
+            var unit = $("#unitSelectM").val();
+            var message = $("#messageM").val();
+            var departement = $("#departementSelectM").val();
 
-        if (name != null && name !== "") {
-            if (phone != null && phone !== "") {
-                if (tower != null && tower !== "" && floor != null && floor !== "" && unit != null &&
-                    unit !== "") {
-                    if (message != null && message !== "") {
-                        if (departement != null && departement !== "" && departement !== "0") {
-                            $.ajax({
-                                url: "complaint/createComplaint",
-                                type: 'post',
-                                dataType: 'json',
-                                data: {
-                                    "name": name,
-                                    "phone": phone,
-                                    "tower": tower,
-                                    "floor": floor,
-                                    "unit": unit,
-                                    "message": message,
-                                    "departement": departement,
-                                    "_token": "{{ csrf_token() }}"
-                                },
+            if (name != null && name !== "") {
+                if (phone != null && phone !== "") {
+                    if (tower != null && tower !== "" && floor != null && floor !== "" && unit != null &&
+                        unit !== "") {
+                        if (message != null && message !== "") {
+                            if (departement != null && departement !== "" && departement !== "0") {
+                                $.ajax({
+                                    url: "complaint/createComplaint",
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        "name": name,
+                                        "phone": phone,
+                                        "tower": tower,
+                                        "floor": floor,
+                                        "unit": unit,
+                                        "message": message,
+                                        "departement": departement,
+                                        "_token": "{{ csrf_token() }}"
+                                    },
 
-                                success: function(result) {
-                                    console.log(result);
-                                    if (result.success) {
-                                        location.reload();
-                                    } else {
-                                        alert(result.error);
-                                        //location.reload();
+                                    success: function (result) {
+                                        console.log(result);
+                                        if (result.success) {
+                                            location.reload();
+                                        } else {
+                                            alert(result.error);
+                                            //location.reload();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                alert('Your assign is empty, please fill it in first');
+                            }
                         } else {
-                            alert('Your assign is empty, please fill it in first');
+                            alert('Your message is empty, please fill it in first');
                         }
                     } else {
-                        alert('Your message is empty, please fill it in first');
+                        alert('Your room number is empty, please fill it in first');
                     }
                 } else {
-                    alert('Your room number is empty, please fill it in first');
+                    alert('Your phone number is empty, please fill it in first');
                 }
             } else {
-                alert('Your phone number is empty, please fill it in first');
-            }
-        } else {
-            alert('Your name is empty, please fill it in first');
-        }
-    });
-    $("#towerSelectM").change(function() {
-        var selected_option = $('#towerSelectM').val();
-        forFloor.removeAttribute("hidden");
-        $('#floorSelectM').html('');
-
-        $.ajax({
-            url: "complaint/getFloor",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "towerId": selected_option,
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function(result) {
-                console.log(result);
-                if (result.success) {
-                    $('#floorSelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Floor</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#floorSelectM').append('<option value="' + result.data[i]
-                            .floor_id +
-                            '">' +
-                            result.data[i].floor_number + '</option>');
-                    }
-                } else {
-                    alert(result.error);
-                    //location.reload();
-                }
+                alert('Your name is empty, please fill it in first');
             }
         });
-    });
+        $("#towerSelectM").change(function () {
+            var selected_option = $('#towerSelectM').val();
+            forFloor.removeAttribute("hidden");
+            $('#floorSelectM').html('');
 
-    $("#floorSelectM").change(function() {
-        var selected_option = $('#floorSelectM').val();
-        forUnit.removeAttribute("hidden");
-        $('#unitSelectM').html('');
+            $.ajax({
+                url: "complaint/getFloor",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "towerId": selected_option,
+                    "_token": "{{ csrf_token() }}"
+                },
 
-        $.ajax({
-            url: "complaint/getUnit",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "floorId": selected_option,
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function(result) {
-                console.log(result);
-                if (result.success) {
-                    $('#unitSelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Unit</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#unitSelectM').append('<option value="' + result.data[i]
-                            .unit_id +
-                            '">' +
-                            result.data[i].unit_number + '</option>');
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        $('#floorSelectM').append(
+                            '<option value="99" selected="true" disabled="disabled">Choose Floor</option>'
+                        );
+                        for (var i = 0; i <= result.data.length; i++) {
+                            $('#floorSelectM').append('<option value="' + result.data[i]
+                                .floor_id +
+                                '">' +
+                                result.data[i].floor_number + '</option>');
+                        }
+                    } else {
+                        alert(result.error);
+                        //location.reload();
                     }
-                } else {
-                    alert(result.error);
-                    //location.reload();
                 }
-            }
+            });
+        });
+
+        $("#floorSelectM").change(function () {
+            var selected_option = $('#floorSelectM').val();
+            forUnit.removeAttribute("hidden");
+            $('#unitSelectM').html('');
+
+            $.ajax({
+                url: "complaint/getUnit",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "floorId": selected_option,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        $('#unitSelectM').append(
+                            '<option value="99" selected="true" disabled="disabled">Choose Unit</option>'
+                        );
+                        for (var i = 0; i <= result.data.length; i++) {
+                            $('#unitSelectM').append('<option value="' + result.data[i]
+                                .unit_id +
+                                '">' +
+                                result.data[i].unit_number + '</option>');
+                        }
+                    } else {
+                        alert(result.error);
+                        //location.reload();
+                    }
+                }
+            });
         });
     });
-});
 </script>

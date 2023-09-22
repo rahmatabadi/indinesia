@@ -91,7 +91,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create Departement</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Create Employee</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -112,11 +112,23 @@
                                         placeholder="Type employee address" />
                                 </div>
                                 <div class="mb-3">
+                                    <label class="form-label">Username </label>
+                                    <input type="text" class="form-control" id="employeeUsernameM" required
+                                        placeholder="Type employee address" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password </label>
+                                    <input type="password" class="form-control" id="employeePasswordM" required
+                                        placeholder="Type employee password" />
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">Departement </label>
                                     <select class="form-select" id="departementSelectM">
                                         <option value="0">Select</option>
                                         <?php foreach ($departement as $d): ?>
-                                            <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
+                                            <option value="<?= $d['id'] ?>">
+                                                <?= $d['departement_name'] ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -162,7 +174,9 @@
                                     <select class="form-select" id="departementSelectMU">
                                         <option value="0">Select</option>
                                         <?php foreach ($departement as $d): ?>
-                                            <option value="<?= $d['id'] ?>"><?= $d['departement_name'] ?></option>
+                                            <option value="<?= $d['id'] ?>">
+                                                <?= $d['departement_name'] ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -249,34 +263,44 @@
             var name = $("#employeeNameM").val();
             var phone = $("#employeePhoneM").val();
             var address = $("#employeeAddressM").val();
+            var password = $("#employeePasswordM").val();
+            var username = $("#employeeUsernameM").val();
             var departement = $("#departementSelectM").val();
 
             if (name != null && name !== "") {
                 if (phone != null && phone !== "") {
                     if (address != null && address !== "") {
                         if (departement != null && departement !== "") {
-                            $.ajax({
-                                url: "masterEmployee/createEmployee",
-                                type: 'post',
-                                dataType: 'json',
-                                data: {
-                                    "name": name,
-                                    "phone": phone,
-                                    "address": address,
-                                    "departement": departement,
-                                    "_token": "{{ csrf_token() }}"
-                                },
+                            if (password != null && password !== "" && username != null && username !==
+                                "") {
+                                $.ajax({
+                                    url: "masterEmployee/createEmployee",
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        "name": name,
+                                        "phone": phone,
+                                        "address": address,
+                                        "departement": departement,
+                                        "password": password,
+                                        "username": username,
+                                        "_token": "{{ csrf_token() }}"
+                                    },
 
-                                success: function (result) {
-                                    console.log(result);
-                                    if (result.success) {
-                                        location.reload();
-                                    } else {
-                                        alert(result.error);
-                                        //location.reload();
+                                    success: function (result) {
+                                        console.log(result);
+                                        if (result.success) {
+                                            location.reload();
+                                        } else {
+                                            alert(result.error);
+                                            //location.reload();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                alert('Your password or username is empty, please fill it in first');
+                            }
+
                         } else {
                             alert('Your departement is empty, please fill it in first');
                         }

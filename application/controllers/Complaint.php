@@ -42,11 +42,11 @@ class Complaint extends CI_Controller
                 $departement = $this->input->post('departement');
 
                 $create = $this->complaintModels->createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $this->session->siteId);
-
+                
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
                 } else {
-                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                        echo json_encode(array("error" => "Gagal Create Complaint"));
                 }
 
         }

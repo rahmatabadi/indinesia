@@ -23,12 +23,56 @@
                             <select class="form-select" id="CRSelect">
                                 <option value="">Select</option>
                                 <?php foreach ($complaint as $d): ?>
-                                    <option value="<?= $d['id'] ?>"><?= $d['id'] ?></option>
+                                <option value="<?= $d['id'] ?>"><?= $d['id'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-4">
+
+                    <div id="detailCR">
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label"><strong>Detail Complaint Request</strong></label>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Location</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="crLocation" required disabled />
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Complaint By</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="crName" required disabled />
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Phone</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="crPhone" required disabled />
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Complaint Date</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="crDate" required disabled />
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Complaint Message</label>
+                            <div class="col-sm-9">
+                                <textarea required class="form-control" rows="3" id="crMessage" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Assign To</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="crAssign" required disabled />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="row mb-4">
                         <label class="col-sm-3 col-form-label">Start Date</label>
                         <div class="col-sm-9">
                             <div class="input-group" id="datepicker2">
@@ -39,14 +83,14 @@
                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="row mb-4">
+                    <!-- <div class="row mb-4">
                         <label for="startTime" class="col-sm-3 col-form-label">Start Time</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="startTime" placeholder="09:00">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row mb-4">
                         <label for="startTime" class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-9">
@@ -71,47 +115,69 @@
 <!-- end main content-->
 
 <script>
-    $(document).ready(function ($) {
-        $(document).on('click', '#createWO', function () {
-            console.log('clicked');
-            var startDate = $("#startDate").val();
-            var startTime = $("#startTime").val();
-            var CRSelect = $("#CRSelect").val();
+$(document).ready(function($) {
+    forDetailCR = document.getElementById("detailCR");
+    forDetailCR.setAttribute("hidden", "hidden");
 
-            if (CRSelect != null && CRSelect !== "") {
-                if (startDate != null && startDate !== "") {
-                    if (startTime != null && startTime !== "") {
+    $("#CRSelect").change(function() {
+        var selected_option = $('#CRSelect').val();
+        console.log(selected_option);
+        forDetailCR.removeAttribute("hidden");
 
-                        $.ajax({
-                            url: "insertWO",
-                            type: 'post',
-                            dataType: 'json',
-                            data: {
-                                "CRSelect": CRSelect,
-                                "startDate": startDate,
-                                "startTime": startTime,
-                                "_token": "{{ csrf_token() }}"
-                            },
+        $.ajax({
+            url: "getDetailCR",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                "cr": selected_option,
+                "_token": "{{ csrf_token() }}"
+            },
 
-                            success: function (result) {
-                                console.log(result);
-                                if (result.success) {
-                                    location.reload();
-                                } else {
-                                    alert(result.error);
-                                    //location.reload();
-                                }
-                            }
-                        });
-                    } else {
-                        alert('Your start time is empty, please fill it in first');
-                    }
+            success: function(result) {
+                console.log(result);
+                if (result.success) {
+                    $('#crLocation').val(result.data.tower_name + '/' + result.data
+                        .floor_number + '/' + result.data.unit_number);
+                    $('#crName').val(result.data.name);
+                    $('#crPhone').val(result.data.phone);
+                    $('#crDate').val(result.data.date);
+                    $('#crMessage').val(result.data.message);
+                    $('#crAssign').val(result.data.departement_name);
+
                 } else {
-                    alert('Your start date is empty, please fill it in first');
+                    alert(result.error);
                 }
-            } else {
-                alert('Please Select Complaint Request');
             }
         });
     });
+
+    $(document).on('click', '#createWO', function() {
+        console.log('clicked');
+        var CRSelect = $("#CRSelect").val();
+
+        if (CRSelect != null && CRSelect !== "") {
+            $.ajax({
+                url: "insertWO",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "CRSelect": CRSelect,
+                    "_token": "{{ csrf_token() }}"
+                },
+
+                success: function(result) {
+                    console.log(result);
+                    if (result.success) {
+                        window.location.href = "../workingOrder";
+                    } else {
+                        alert(result.error);
+                        //location.reload();
+                    }
+                }
+            });
+        } else {
+            alert('Please Select Complaint Request');
+        }
+    });
+});
 </script>
