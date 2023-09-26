@@ -11,12 +11,12 @@
 
                         <div class="page-title-right">
                             <?php if ($access_create): ?>
-                            <a href="<?= base_url('workingOrder/createWOInternal') ?>"
-                                class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
-                                Create Work Order Internal</a>
-                            <a href="<?= base_url('workingOrder/createWO') ?>"
-                                class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
-                                Create Work Order CR</a>
+                                <a href="<?= base_url('workingOrder/createWOInternal') ?>"
+                                    class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
+                                    Create Work Order Internal</a>
+                                <a href="<?= base_url('workingOrder/createWO') ?>"
+                                    class="d-none d-sm-inline-block btn btn-primary shadow-sm"><i class="fas fa-plus"></i>
+                                    Create Work Order CR</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -44,73 +44,68 @@
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php foreach ($data as $m): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $i ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['wo_id'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $m['id'] ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($m['status'] == 1): ?>
-                                            <span class="badge bg-info">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 2): ?>
-                                            <span class="badge bg-warning">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php elseif ($m['status'] == 3): ?>
-                                            <span class="badge bg-success">
-                                                <?= $m['desc'] ?>
-                                            </span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <ul class="list-unstyled hstack gap-1 mb-0">
-                                                <li id="viewDetail">
-                                                    <input type="hidden" class="form-control" id="idView" name="idView"
-                                                        value=<?= $m['id'] ?>>
-                                                    <a class="btn btn-sm btn-soft-primary"><i
-                                                            class="mdi mdi-eye-outline"></i></a>
-                                                </li>
-                                                <?php if ($access_action): ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['wo_id'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $m['id'] ?>
+                                            </td>
+                                            <td>
                                                 <?php if ($m['status'] == 1): ?>
-                                                <li data-bs-toggle="modal" data-bs-target="#actionWOModal" id="actionWO"
-                                                    data-idWOM="<?= $m['wo_id'] ?>" data-idCRM="<?= $m['id'] ?>">
-                                                    <a class=" btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
+                                                    <span class="badge bg-info">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
                                                 <?php elseif ($m['status'] == 2): ?>
-                                                <!-- Change To Start -->
-                                                <li data-bs-toggle="modal" data-bs-target="#actionWOStartModal"
-                                                    id="actionWOStart" data-idWOM="<?= $m['wo_id'] ?>"
-                                                    data-idCRM="<?= $m['id'] ?>">
-                                                    <a class=" btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
-                                                <!-- <li data-bs-toggle="modal" data-bs-target="#actionWODoneModal"
-                                                                id="actionWODone" data-idWOM="<?= $m['wo_id'] ?>"
+                                                    <span class="badge bg-warning">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php elseif ($m['status'] == 3): ?>
+                                                    <span class="badge bg-success">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <ul class="list-unstyled hstack gap-1 mb-0">
+                                                    <li id="viewDetail">
+                                                        <input type="hidden" class="form-control" id="idView" name="idView"
+                                                            value=<?= $m['id'] ?>>
+                                                        <a class="btn btn-sm btn-soft-primary"><i
+                                                                class="mdi mdi-eye-outline"></i></a>
+                                                    </li>
+                                                    <?php if ($access_action): ?>
+                                                        <?php if ($m['status'] == 1 && $employeeId == '0'): ?>
+                                                            <li data-bs-toggle="modal" data-bs-target="#actionWOModal" id="actionWO"
+                                                                data-idWOM="<?= $m['wo_id'] ?>" data-idCRM="<?= $m['id'] ?>">
+                                                                <a class=" btn btn-sm btn-soft-info"><i
+                                                                        class="mdi mdi-pencil-outline"></i></a>
+                                                            </li>
+                                                        <?php elseif ($m['status'] == 2 && $employeeId != '0'): ?>
+                                                            <!-- Change To Start -->
+                                                            <li data-bs-toggle="modal" data-bs-target="#actionWOStartModal"
+                                                                id="actionWOStart" data-idWOM="<?= $m['wo_id'] ?>"
                                                                 data-idCRM="<?= $m['id'] ?>">
                                                                 <a class=" btn btn-sm btn-soft-info"><i
                                                                         class="mdi mdi-pencil-outline"></i></a>
-                                                            </li> -->
-                                                <?php elseif ($m['status'] == 3): ?>
-                                                <li data-bs-toggle="modal" data-bs-target="#actionWOStartModal"
-                                                    id="actionWODone" data-idWOM="<?= $m['wo_id'] ?>"
-                                                    data-idCRM="<?= $m['id'] ?>">
-                                                    <a class=" btn btn-sm btn-soft-info"><i
-                                                            class="mdi mdi-pencil-outline"></i></a>
-                                                </li>
-                                                <?php endif; ?>
-                                                <?php endif; ?>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <?php $i++; ?>
+                                                            </li>
+                                                        <?php elseif ($m['status'] == 3 && $employeeId != '0'): ?>
+                                                            <!-- Change To Finish -->
+                                                            <li data-bs-toggle="modal" data-bs-target="#actionWODoneModal"
+                                                                id="actionWODone" data-idWOM="<?= $m['wo_id'] ?>">
+                                                                <a class=" btn btn-sm btn-soft-info"><i
+                                                                        class="mdi mdi-pencil-outline"></i></a>
+                                                            </li>
+
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <?php $i++; ?>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -165,8 +160,8 @@
                                     <label class="col-sm-3 col-form-label">Start Date</label>
                                     <div class="col-sm-9">
                                         <div class="input-group" id="datepicker2">
-                                            <input type="text" class="form-control" placeholder="Finish Date"
-                                                data-date-format="dd-mm-yyyy" data-date-container='#datepicker2'
+                                            <input type="text" class="form-control" placeholder="Start Date"
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker2'
                                                 data-provide="datepicker" data-date-autoclose="true" id="startDateM">
 
                                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -204,9 +199,9 @@
                                 <div class="row mb-4">
                                     <label class="col-sm-3 col-form-label">Finish Date</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group" id="datepicker2">
+                                        <div class="input-group" id="datepicker3">
                                             <input type="text" class="form-control" placeholder="Finish Date"
-                                                data-date-format="dd-mm-yyyy" data-date-container='#datepicker2'
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker3'
                                                 data-provide="datepicker" data-date-autoclose="true" id="finishDate">
 
                                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -324,219 +319,215 @@
 <!-- end main content-->
 
 <script>
-$(document).ready(function($) {
-    $('#timepicker1').timepicker({
-        showInputs: false
-    });
-    $(document).on('click', '#viewDetail', function() {
-        $('#detailWOModal').modal('show');
-        id = $("#idView").val();
-        $.ajax({
-            url: "WorkingOrder/getDetailWO",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "id": id,
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function(result) {
-                console.log(result);
-                if (result.success) {
-                    $('#woD').val(result.data.wo_id);
-                    $('#crD').val(result.data.complaint_id);
-                    $('#locationD').val(result.data.location);
-                    $('#nameD').val(result.data.name);
-                    $('#messageD').val(result.data.message);
-                    $('#phoneD').val(result.data.phone);
-                    $('#assignD').val(result.data.departement_name + '/' + result.data
-                        .employee_name);
-                    $('#dateD').val(result.data.date);
-                    $('#startD').val(result.data.start_date);
-                    $('#enD').val(result.data.end_date);
-                    $('#remarkD').val(result.data.remarkD);
-                } else {
-                    alert(result.error);
-                    //location.reload();
-                }
-            }
+    $(document).ready(function ($) {
+        $('#timepicker1').timepicker({
+            showInputs: false
         });
-    });
-
-    $(document).on('click', '#actionWO', function() {
-        id = $(this).attr('data-idWOM');
-
-        $('#idU').val(id);
-
-        $.ajax({
-            url: "WorkingOrder/getEmployee",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function(result) {
-                console.log(result);
-                if (result.success) {
-                    $('#employeeSelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Employee</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#employeeSelectM').append('<option value="' + result.data[i]
-                            .employee_id +
-                            '">' +
-                            result.data[i].employee_name + '</option>');
-                    }
-                } else {
-                    alert(result.error);
-                    //location.reload();
-                }
-            }
-        });
-
-        //get Category
-        $.ajax({
-            url: "WorkingOrder/getCategoryComplaint",
-            type: 'post',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
-
-            success: function(result) {
-                console.log(result);
-                if (result.success) {
-                    $('#categorySelectM').append(
-                        '<option value="99" selected="true" disabled="disabled">Choose Category</option>'
-                    );
-                    for (var i = 0; i <= result.data.length; i++) {
-                        $('#categorySelectM').append('<option value="' + result.data[i]
-                            .category_complaint_id +
-                            '">' +
-                            result.data[i].category_complaint_name + '</option>');
-                    }
-                } else {
-                    alert(result.error);
-                    //location.reload();
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '#actionWODone', function() {
-        id = $(this).attr('data-idWOM');
-
-        $('#idDoneU').val(id);
-    });
-
-    $(document).on('click', '#actionWOStart', function() {
-        id = $(this).attr('data-idWOM');
-
-        $('#idStartU').val(id);
-    });
-
-    $(document).on('click', '#process', function() {
-        id = $("#idU").val();
-        employee_id = $("#employeeSelectM").val();
-        category = $("#categorySelectM").val();
-
-        if (employee_id != null && employee_id !== "" && category != null && category !== "") {
+        $(document).on('click', '#viewDetail', function () {
+            $('#detailWOModal').modal('show');
+            id = $("#idView").val();
             $.ajax({
-                url: "WorkingOrder/updateWorker",
+                url: "WorkingOrder/getDetailWO",
                 type: 'post',
                 dataType: 'json',
                 data: {
                     "id": id,
-                    "employee_id": employee_id,
-                    "category": category,
                     "_token": "{{ csrf_token() }}"
                 },
 
-                success: function(result) {
+                success: function (result) {
                     console.log(result);
                     if (result.success) {
-                        location.reload();
+                        $('#woD').val(result.data.wo_id);
+                        $('#crD').val(result.data.complaint_id);
+                        $('#locationD').val(result.data.location);
+                        $('#nameD').val(result.data.name);
+                        $('#messageD').val(result.data.message);
+                        $('#phoneD').val(result.data.phone);
+                        $('#assignD').val(result.data.departement_name + '/' + result.data
+                            .employee_name);
+                        $('#dateD').val(result.data.date);
+                        $('#startD').val(result.data.start_date);
+                        $('#enD').val(result.data.end_date);
+                        $('#remarkD').val(result.data.remarkD);
                     } else {
                         alert(result.error);
+                        //location.reload();
                     }
                 }
             });
-        } else {
-            alert('Please fill it in first');
-        }
-    });
+        });
 
-    $(document).on('click', '#startAction', function() {
-        console.log('Start Work');
-        id = $("#idStartU").val();
-        starthDate = $("#startDateM").val();
-        startTime = $("#startTimeM").val();
-        console.log(id);
-        console.log(starthDate);
-        console.log(startTime);
+        $(document).on('click', '#actionWO', function () {
+            id = $(this).attr('data-idWOM');
 
-        if (id != null && id !== "" && starthDate != null && starthDate !== "" && startTime != null &&
-            startTime !== "") {
+            $('#idU').val(id);
 
-            // $.ajax({
-            //     url: "WorkingOrder/updateWorkerDone",
-            //     type: 'post',
-            //     dataType: 'json',
-            //     data: {
-            //         "id": id,
-            //         "finish_time": 'aaa',
-            //         "finish_date": 'aaa',
-            //         "_token": "{{ csrf_token() }}"
-            //     },
+            $.ajax({
+                url: "WorkingOrder/getEmployee",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
 
-            //     success: function (result) {
-            //         console.log(result);
-            //         if (result.success) {
-            //             location.reload();
-            //         } else {
-            //             alert(result.error);
-            //         }
-            //     }
-            // });
-        } else {
-            alert('Please fill it in first');
-        }
-    });
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        $('#employeeSelectM').append(
+                            '<option value="99" selected="true" disabled="disabled">Choose Employee</option>'
+                        );
+                        for (var i = 0; i <= result.data.length; i++) {
+                            $('#employeeSelectM').append('<option value="' + result.data[i]
+                                .employee_id +
+                                '">' +
+                                result.data[i].employee_name + '</option>');
+                        }
+                    } else {
+                        alert(result.error);
+                        //location.reload();
+                    }
+                }
+            });
 
-    $(document).on('click', '#finishClick', function() {
-        id = $("#idDoneU").val();
-        finishDate = $("#finishDate").val();
-        finsihTime = $("#finishTime").val();
+            //get Category
+            $.ajax({
+                url: "WorkingOrder/getCategoryComplaint",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
 
-        if (id != null && id !== "" && finishDate != null && finishDate !== "" && finsihTime != null &&
-            finsihTime !== "") {
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        $('#categorySelectM').append(
+                            '<option value="99" selected="true" disabled="disabled">Choose Category</option>'
+                        );
+                        for (var i = 0; i <= result.data.length; i++) {
+                            $('#categorySelectM').append('<option value="' + result.data[i]
+                                .category_complaint_id +
+                                '">' +
+                                result.data[i].category_complaint_name + '</option>');
+                        }
+                    } else {
+                        alert(result.error);
+                        //location.reload();
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#actionWODone', function () {
+            id = $(this).attr('data-idWOM');
+
+            $('#idDoneU').val(id);
+        });
+
+        $(document).on('click', '#actionWOStart', function () {
+            id = $(this).attr('data-idWOM');
+
+            $('#idStartU').val(id);
+        });
+
+        $(document).on('click', '#process', function () {
+            id = $("#idU").val();
+            employee_id = $("#employeeSelectM").val();
+            category = $("#categorySelectM").val();
+
+            if (employee_id != null && employee_id !== "" && category != null && category !== "") {
+                $.ajax({
+                    url: "WorkingOrder/updateWorker",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "employee_id": employee_id,
+                        "category": category,
+                        "_token": "{{ csrf_token() }}"
+                    },
+
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                        }
+                    }
+                });
+            } else {
+                alert('Please fill it in first');
+            }
+        });
+
+        $(document).on('click', '#startAction', function () {
+            console.log('Start Work');
+            id = $("#idStartU").val();
+            startDate = $("#startDateM").val();
+            startTime = $("#startTimeM").val();
+
+            if (id != null && id !== "" && startDate != null && startDate !== "" && startTime != null &&
+                startTime !== "") {
+
+                $.ajax({
+                    url: "WorkingOrder/updateWorkerStart",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "start_date": startDate + ' ' + startTime + ':00',
+                        "_token": "{{ csrf_token() }}"
+                    },
+
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                        }
+                    }
+                });
+            } else {
+                alert('Please fill it in first');
+            }
+        });
+
+        $(document).on('click', '#finishClick', function () {
+            id = $("#idDoneU").val();
+            finishDate = $("#finishDate").val();
+            finsihTime = $("#finishTime").val();
             console.log(id);
             console.log(finishDate);
             console.log(finsihTime);
-            $.ajax({
-                url: "WorkingOrder/updateWorkerDone",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    "id": id,
-                    "finish_time": 'aaa',
-                    "finish_date": 'aaa',
-                    "_token": "{{ csrf_token() }}"
-                },
 
-                success: function(result) {
-                    console.log(result);
-                    if (result.success) {
-                        location.reload();
-                    } else {
-                        alert(result.error);
+            if (id != null && id !== "" && finishDate != null && finishDate !== "" && finsihTime != null &&
+                finsihTime !== "") {
+
+                $.ajax({
+                    url: "WorkingOrder/updateWorkerDone",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "finish_date": finishDate + ' ' + finsihTime + ':00',
+                        "_token": "{{ csrf_token() }}"
+                    },
+
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                        }
                     }
-                }
-            });
-        } else {
-            alert('Please fill it in first');
-        }
+                });
+            } else {
+                alert('Please fill it in first');
+            }
+        });
     });
-});
 </script>

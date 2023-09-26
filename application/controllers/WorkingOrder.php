@@ -23,6 +23,7 @@ class WorkingOrder extends CI_Controller
                 $data['data'] = $this->WOModels->getWorkOrder($this->session->siteId, $this->session->roleId, $this->session->employeeId);
                 $data['access_create'] = $this->WOModels->cekAccessCreate($this->session->roleId);
                 $data['access_action'] = $this->WOModels->cekAccessAction($this->session->roleId);
+                $data['employeeId'] = $this->session->employeeId;
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
@@ -171,10 +172,23 @@ class WorkingOrder extends CI_Controller
         {
 
                 $id = $this->input->post('id');
-                $finishDate = $this->input->post('finsih_date');
-                $finishTime = $this->input->post('finsih_time');
+                $finishDate = $this->input->post('finish_date');
 
-                $create = $this->WOModels->updateWorkerDone($id, $finishDate, $finishTime);
+                $create = $this->WOModels->updateWorkerDone($id, $finishDate);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+        }
+
+        public function updateWorkerStart()
+        {
+
+                $id = $this->input->post('id');
+                $startDate = $this->input->post('start_date');
+                $create = $this->WOModels->updateWorkerStart($id, $startDate);
 
                 if ($create) {
                         echo json_encode(array("success" => "Success"));

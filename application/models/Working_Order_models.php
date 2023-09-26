@@ -195,12 +195,27 @@ class Working_Order_models extends CI_Model
         return $this->db->insert('log_history', $dataLog);
     }
 
-    public function updateWorkerDone($id, $finishDate, $finishTime)
+    public function updateWorkerDone($id, $finishDate)
     {
         $this->db->trans_begin();
 
-        $this->db->update('work_order', array('end_date' => $finishDate, 'end_time' => $finishTime, 'status' => '3'), array('id' => $id));
+        $this->db->update('work_order', array('end_date' => $finishDate, 'status' => '4'), array('id' => $id));
         $this->db->update('complaint', array('status' => '4'), array('wo_id' => $id));
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
+    }
+
+    public function updateWorkerStart($id, $startDate)
+    {
+        $this->db->trans_begin();
+
+        $this->db->update('work_order', array('start_date' => $startDate, 'status' => '3'), array('id' => $id));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
