@@ -67,6 +67,10 @@
                                                     <span class="badge bg-success">
                                                         <?= $m['desc'] ?>
                                                     </span>
+                                                <?php elseif ($m['status'] == 4): ?>
+                                                    <span class="badge bg-success">
+                                                        <?= $m['desc'] ?>
+                                                    </span>
                                                 <?php endif; ?>
                                             </td>
                                             <td>
