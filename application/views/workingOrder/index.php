@@ -75,9 +75,7 @@
                                             </td>
                                             <td>
                                                 <ul class="list-unstyled hstack gap-1 mb-0">
-                                                    <li id="viewDetail">
-                                                        <input type="hidden" class="form-control" id="idView" name="idView"
-                                                            value=<?= $m['id'] ?>>
+                                                    <li id="viewDetail" data-idCR="<?= $m['id'] ?>">
                                                         <a class="btn btn-sm btn-soft-primary"><i
                                                                 class="mdi mdi-eye-outline"></i></a>
                                                     </li>
@@ -104,6 +102,21 @@
                                                                         class="mdi mdi-pencil-outline"></i></a>
                                                             </li>
 
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                    <?php if ($access_create): ?>
+                                                        <?php if ($m['status'] == 1): ?>
+                                                            <!-- <li data-bs-toggle="modal" data-bs-target="#updateModal" id="update"
+                                                                data-idWOMU="<?= $m['wo_id'] ?>" data-idCRMU="<?= $m['id'] ?>"
+                                                                data-assignMU="<?= $m['assign'] ?>">
+                                                                <a class="btn btn-sm btn-soft-info"><i
+                                                                        class="mdi mdi-pencil-outline"></i></a>
+                                                            </li> -->
+                                                            <li data-bs-toggle="modal" data-bs-target="#deleteModal" id="deleteWO"
+                                                                data-idMD="<?= $m['wo_id'] ?>">
+                                                                <a class="btn btn-sm btn-soft-danger"><i
+                                                                        class="mdi mdi-delete-outline"></i></a>
+                                                            </li>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                 </ul>
@@ -229,6 +242,7 @@
                 </div>
             </div>
 
+            <!-- MODAL DETAIL -->
             <div class="modal fade" id="detailWOModal" tabindex="-1" aria-labelledby="actionWOLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -313,6 +327,73 @@
                     </div>
                 </div>
             </div>
+
+            <!-- UPDATE MODAL -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Complaint</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row mb-4">
+                                    <label class="col-sm-3 col-form-label">Work Order </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="woMU" disabled />
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <label class="col-sm-3 col-form-label">Complaint Request</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="crMU" disabled />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Assign To</label>
+
+                                    <select class="form-select" id="departementSelectMU">
+                                        <option value="0">Select</option>
+                                        <?php foreach ($departement as $d): ?>
+                                            <option value="<?= $d['id'] ?>">
+                                                <?= $d['departement_name'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="updateProcess">Update WO</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DeleteModal -->
+            <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Work Order</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" class="form-control" id="idMD">
+                            <p>Are you sure you want to delete this work order?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" id="deleteMD">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- container-fluid -->
     </div>
@@ -328,8 +409,7 @@
             showInputs: false
         });
         $(document).on('click', '#viewDetail', function () {
-            $('#detailWOModal').modal('show');
-            id = $("#idView").val();
+            id = $(this).attr('data-idCR');
             $.ajax({
                 url: "WorkingOrder/getDetailWO",
                 type: 'post',
@@ -342,6 +422,7 @@
                 success: function (result) {
                     console.log(result);
                     if (result.success) {
+                        $('#detailWOModal').modal('show');
                         $('#woD').val(result.data.wo_id);
                         $('#crD').val(result.data.complaint_id);
                         $('#locationD').val(result.data.location);
@@ -531,6 +612,89 @@
                 });
             } else {
                 alert('Please fill it in first');
+            }
+        });
+        $(document).on('click', '#deleteWO', function () {
+            id = $(this).attr('data-idMD');
+
+            $('#idMD').val(id);
+        });
+
+        $(document).on('click', '#deleteMD', function () {
+            var id = $("#idMD").val();
+            console.log(id);
+
+            if (id != null && id !== "") {
+                $.ajax({
+                    url: "WorkingOrder/deleteWO",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        "id": id,
+                        "_token": "{{ csrf_token() }}"
+                    },
+
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            location.reload();
+                        } else {
+                            alert(result.error);
+                            //location.reload();
+                        }
+                    }
+                });
+            } else {
+                alert('Your id is empty');
+            }
+        });
+
+        $(document).on('click', '#update', function () {
+            $('#crMU').val($(this).attr('data-idCRMU'));
+            $('#woMU').val($(this).attr('data-idWOMU'));
+
+            console.log($(this).attr('data-idCRMU'));
+            console.log($(this).attr('data-idWOMU'));
+            document.getElementById('departementSelectMU').value = $(this).attr('data-assignMU');
+        });
+
+        $(document).on('click', '#updateProcess', function () {
+            var idCR = $(this).attr('data-idCRMU');
+            var idWO = $(this).attr('data-idWOMU');
+            var departement = $("#departementSelectMU").val();
+
+            if (idCR != null && idCR !== "") {
+                if (idWO != null && idWO !== "") {
+                    if (departement != null && departement !== "") {
+                        $.ajax({
+                            url: "WorkingOrder/updateWO",
+                            type: 'post',
+                            dataType: 'json',
+                            data: {
+                                "idCR": idCR,
+                                "idWO": idWO,
+                                "departement": departement,
+                                "_token": "{{ csrf_token() }}"
+                            },
+
+                            success: function (result) {
+                                console.log(result);
+                                if (result.success) {
+                                    location.reload();
+                                } else {
+                                    alert(result.error);
+                                    //location.reload();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Your id WO is empty');
+                    }
+                } else {
+                    alert('Your id WO is empty');
+                }
+            } else {
+                alert('Your id CR is empty');
             }
         });
     });

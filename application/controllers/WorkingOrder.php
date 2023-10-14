@@ -24,6 +24,7 @@ class WorkingOrder extends CI_Controller
                 $data['access_create'] = $this->WOModels->cekAccessCreate($this->session->roleId);
                 $data['access_action'] = $this->WOModels->cekAccessAction($this->session->roleId);
                 $data['employeeId'] = $this->session->employeeId;
+                $data['departement'] = $this->complaintModels->getDepartement($this->session->siteId, $this->session->roleId);
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('templates/topbar', $data);
@@ -219,6 +220,36 @@ class WorkingOrder extends CI_Controller
 
                 if ($data) {
                         echo json_encode(array("success" => "Success", "data" => $data));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function deleteWO()
+        {
+                $id = $this->input->post('id');
+
+                $delete = $this->WOModels->deleteWorkOrder($id);
+
+                if ($delete) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function updateWO()
+        {
+                $idCR = $this->input->post('idCR');
+                $idWO = $this->input->post('idWO');
+                $departement = $this->input->post('departement');
+
+                $update = $this->WOModels->updateWO($idCR, $idWO, $departement);
+
+                if ($update) {
+                        echo json_encode(array("success" => "Success"));
                 } else {
                         echo json_encode(array("error" => "Data Tidak Ditemukan"));
                 }

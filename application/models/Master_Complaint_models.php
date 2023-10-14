@@ -23,7 +23,7 @@ class Master_Complaint_models extends CI_Model
             'category_complaint_desc' => $desc,
             'departement_id' => $departementId,
             'site_id' => $siteId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('master_category_complaint', $data);

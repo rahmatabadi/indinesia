@@ -40,9 +40,10 @@ class Complaint extends CI_Controller
                 $unit = $this->input->post('unit');
                 $message = $this->input->post('message');
                 $departement = $this->input->post('departement');
+                $createdDate = $this->input->post('createdDate');
 
-                $create = $this->complaintModels->createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $this->session->siteId);
-                
+                $create = $this->complaintModels->createComplaint($name, $phone, $tower, $floor, $unit, $message, $departement, $createdDate, $this->session->siteId);
+
                 if ($create) {
                         echo json_encode(array("success" => "Success"));
                 } else {
@@ -75,6 +76,55 @@ class Complaint extends CI_Controller
                         echo json_encode(array("success" => "Success", "data" => $create));
                 } else {
                         echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+        }
+
+        public function getDetailCR()
+        {
+                $id = $this->input->post('id');
+
+                $data = $this->complaintModels->getDataComplaintById($id);
+
+                if ($data) {
+                        echo json_encode(array("success" => "Success", "data" => $data));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function deleteComplaint()
+        {
+                $id = $this->input->post('id');
+
+                $data = $this->complaintModels->deleteComplaint($id);
+
+                if ($data) {
+                        echo json_encode(array("success" => "Success", "data" => $data));
+                } else {
+                        echo json_encode(array("error" => "Data Tidak Ditemukan"));
+                }
+
+        }
+
+        public function updateComplaint()
+        {
+                $id = $this->input->post('id');
+                $name = $this->input->post('name');
+                $phone = $this->input->post('phone');
+                $tower = $this->input->post('tower');
+                $floor = $this->input->post('floor');
+                $unit = $this->input->post('unit');
+                $message = $this->input->post('message');
+                $departement = $this->input->post('departement');
+                $createdDate = $this->input->post('createdDate');
+
+                $create = $this->complaintModels->updateComplaint($id, $name, $phone, $tower, $floor, $unit, $message, $departement, $createdDate, $this->session->siteId);
+
+                if ($create) {
+                        echo json_encode(array("success" => "Success"));
+                } else {
+                        echo json_encode(array("error" => "Gagal Create Complaint"));
                 }
 
         }

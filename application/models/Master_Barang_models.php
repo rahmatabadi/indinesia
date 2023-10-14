@@ -10,7 +10,7 @@ class Master_Barang_models extends CI_Model
             'barang_stock' => $stock,
             'barang_desc' => $desc,
             'site_id' => $siteId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('master_barang', $data);

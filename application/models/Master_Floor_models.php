@@ -18,7 +18,7 @@ class Master_Floor_models extends CI_Model
             'floor_desc' => $desc,
             'site_id' => $siteId,
             'tower_id' => $towerId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('master_floor', $data);

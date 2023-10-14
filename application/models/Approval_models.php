@@ -24,7 +24,7 @@ class Approval_models extends CI_Model
             'assign' => $roleId,
             'worker' => $employee_id,
             'status' => '2',
-            'time' => date('d-m-Y H:i:s')
+            'time' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('log_history', $dataLog);
@@ -39,7 +39,7 @@ class Approval_models extends CI_Model
             'assign' => $roleId,
             'worker' => 'Admin',
             'status' => '3',
-            'time' => date('d-m-Y H:i:s')
+            'time' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('log_history', $dataLog);
@@ -63,7 +63,7 @@ class Approval_models extends CI_Model
             'assign' => $roleId,
             'worker' => 'Admin',
             'status' => '3',
-            'time' => date('d-m-Y H:i:s')
+            'time' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('log_history', $dataLog);

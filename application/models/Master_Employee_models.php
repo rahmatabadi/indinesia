@@ -26,7 +26,7 @@ class Master_Employee_models extends CI_Model
             'employee_address' => $address,
             'departement_id' => $departement,
             'site_id' => $siteId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         $this->db->insert('master_employee', $data);

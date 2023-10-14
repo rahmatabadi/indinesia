@@ -32,7 +32,7 @@ class Working_Order_models extends CI_Model
             ->join('master_unit d', 'a.unit_id = d.unit_id')
             ->join('departement e', 'a.assign = e.id')
             ->join('work_order f', 'a.wo_id = f.id')
-            ->join('master_employee g', 'g.employee_id = f.employee_id', 'RIGHT')
+            ->join('master_employee g', 'g.employee_id = f.employee_id', 'LEFT')
             ->where(array('a.id' => $id))
             ->get()->row_array();
     }
@@ -75,7 +75,7 @@ class Working_Order_models extends CI_Model
         } else {
             $wherArr = array('a.site_id' => $siteId);
         }
-        return $this->db->select('a.wo_id,a.id,c.desc,b.status')
+        return $this->db->select('a.wo_id,a.id,c.desc,b.status,a.assign')
             ->from('complaint a')
             ->join('work_order b', 'a.wo_id = b.id')
             ->join('status_wo c', 'c.id = b.status')
@@ -131,7 +131,7 @@ class Working_Order_models extends CI_Model
             'message' => $message,
             'assign' => $departement,
             'status' => '1',
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         $this->db->insert('complaint', $data);
@@ -143,7 +143,7 @@ class Working_Order_models extends CI_Model
             'assign' => $departement,
             'worker' => 'Admin',
             'status' => '1',
-            'time' => date('d-m-Y H:i:s')
+            'time' => date('Y-m-d H:i:s')
         );
 
         $this->db->insert('log_history', $dataLog);
@@ -154,7 +154,7 @@ class Working_Order_models extends CI_Model
             'id' => $wo_id,
             'departement_id' => $departement,
             'status' => '1',
-            'created_date' => date('d-m-Y H:i:s')
+            'created_date' => date('Y-m-d H:i:s')
         );
 
         $this->db->insert('work_order', $data);
@@ -189,7 +189,7 @@ class Working_Order_models extends CI_Model
             'assign' => $roleId,
             'worker' => $employee_id,
             'status' => '2',
-            'time' => date('d-m-Y H:i:s')
+            'time' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('log_history', $dataLog);
@@ -216,6 +216,26 @@ class Working_Order_models extends CI_Model
         $this->db->trans_begin();
 
         $this->db->update('work_order', array('start_date' => $startDate, 'status' => '3'), array('id' => $id));
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            $this->db->trans_commit();
+            return true;
+        }
+    }
+
+    public function deleteWorkOrder($id)
+    {
+        return $this->db->delete('work_order', array('id' => $id));
+    }
+
+    public function updateWO($idCR, $idWO, $departement)
+    {
+        $this->db->trans_begin();
+
+        //$this->db->update('work_order', array('start_date' => $startDate, 'status' => '3'), array('id' => $id));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();

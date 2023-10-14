@@ -14,7 +14,7 @@ class Master_Room_models extends CI_Model
             'tower_name' => $name,
             'tower_desc' => $desc,
             'site_id' => $siteId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('master_tower', $data);

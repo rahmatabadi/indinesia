@@ -26,7 +26,7 @@ class Master_Unit_models extends CI_Model
             'unit_desc' => $desc,
             'site_id' => $siteId,
             'floor_id' => $floorId,
-            'date' => date('d-m-Y H:i:s')
+            'date' => date('Y-m-d H:i:s')
         );
 
         return $this->db->insert('master_unit', $data);
